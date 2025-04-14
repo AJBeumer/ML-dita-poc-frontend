@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 function LeftMenu({ publicationName, programme, pubLastModified, topics }) {
     const navigate = useNavigate();
 
-    // Determine if publication is brand new or not updated
     const pubKey = `pubLastSeen_${publicationName}`;
     const storedPub = localStorage.getItem(pubKey);
-    const skipTopicHighlight = !storedPub || new Date(pubLastModified) <= new Date(storedPub);
+    // Only skip topic highlights if the publication has been seen
+    // and has not been updated since last seen.
+    const skipTopicHighlight = storedPub && new Date(pubLastModified) <= new Date(storedPub);
     if (skipTopicHighlight) {
         console.log(`[LeftMenu] Skipping topic highlights for publication ${publicationName}`);
     } else {
@@ -16,18 +17,13 @@ function LeftMenu({ publicationName, programme, pubLastModified, topics }) {
     }
 
     function shouldHighlightTopic(topic) {
-        if (skipTopicHighlight) return false;
-        const topicKey = `topicLastSeen_${topic.uri}`;
-        const stored = localStorage.getItem(topicKey);
-        if (!stored) {
-            console.log(`[shouldHighlightTopic] No localStorage for ${topicKey} => highlight.`);
-            return true;
-        }
-        const docDate = new Date(topic.lastModified);
-        const lastSeenDate = new Date(stored);
-        const highlight = docDate > lastSeenDate;
-        console.log(`[shouldHighlightTopic] ${topic.uri}: docDate=${docDate.toISOString()}, lastSeen=${lastSeenDate.toISOString()}, highlight=${highlight}`);
-        return highlight;
+        // Calculate the difference between now and the topic's lastModified time
+        const topicLastModified = new Date(topic.lastModified);
+        const now = new Date();
+        const diffInMinutes = (now.getTime() - topicLastModified.getTime()) / (1000 * 60);
+        console.log(`[shouldHighlightTopic] ${topic.uri}: diffInMinutes=${diffInMinutes}`);
+        // Highlight if the topic was updated within the last 10 minutes
+        return diffInMinutes <= 10;
     }
 
     function handleTopicClick(topic) {
@@ -37,7 +33,6 @@ function LeftMenu({ publicationName, programme, pubLastModified, topics }) {
         navigate(`/${programme}/${encodeURIComponent(publicationName)}/topic/${encodeURIComponent(topic.uri)}`);
     }
 
-    // Recursively render topics (and nested children if any)
     function renderTopicItems(topicList) {
         return (
             <ul>
@@ -46,9 +41,9 @@ function LeftMenu({ publicationName, programme, pubLastModified, topics }) {
                     const style = highlight ? { color: 'red', fontWeight: 'bold', cursor: 'pointer' } : { cursor: 'pointer' };
                     return (
                         <li key={topic.uri}>
-              <span onClick={() => handleTopicClick(topic)} style={style}>
-                {topic.title}
-              </span>
+                            <span onClick={() => handleTopicClick(topic)} style={style}>
+                                {topic.title}
+                            </span>
                             {topic.children && topic.children.length > 0 && renderTopicItems(topic.children)}
                         </li>
                     );

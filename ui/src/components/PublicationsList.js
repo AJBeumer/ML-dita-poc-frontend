@@ -18,17 +18,12 @@ function PublicationsList() {
                 // Group by programme, then within programme group by subject.
                 const grouped = data.reduce((acc, env) => {
                     const prog = env.programme.toUpperCase();
-                    if (!acc[prog]) {
-                        acc[prog] = {};
-                    }
+                    if (!acc[prog]) acc[prog] = {};
                     const subject = env.subject || 'General';
-                    if (!acc[prog][subject]) {
-                        acc[prog][subject] = [];
-                    }
+                    if (!acc[prog][subject]) acc[prog][subject] = [];
                     acc[prog][subject].push(env);
                     return acc;
                 }, {});
-                console.log('Grouped sitemaps:', grouped);
                 setGroupedSitemaps(grouped);
             } catch (err) {
                 console.error('Error loading envelopes in PublicationsList:', err);
@@ -37,10 +32,27 @@ function PublicationsList() {
         loadEnvelopes();
     }, []);
 
+    // Publication is highlighted if its lastModified timestamp is within the last 10 minutes OR
+    // if there's no localStorage record or the stored value is older than the publication's lastModified.
+    function isPublicationHighlighted(pub) {
+        const now = new Date();
+        const pubLastModified = new Date(pub.lastModified);
+        const recencyHighlight = ((now - pubLastModified) / (1000 * 60)) <= 10;
+
+        const pubKey = `pubLastSeen_${pub.publication}`;
+        const storedTimestamp = localStorage.getItem(pubKey);
+        const localStorageHighlight = !storedTimestamp || pubLastModified > new Date(storedTimestamp);
+
+        console.log(
+            `Publication "${pub.publication}" recencyHighlight: ${recencyHighlight}, localStorageHighlight: ${localStorageHighlight}`
+        );
+        return recencyHighlight || localStorageHighlight;
+    }
+
     function handleClick(env) {
-        // Mark publication as seen
-        localStorage.setItem(`pubLastSeen_${env.publication}`, env.lastModified);
-        // Navigate to PublicationPage, sending the envelope URI in query param.
+        const pubKey = `pubLastSeen_${env.publication}`;
+        // When clicking a publication, store its current lastModified value
+        localStorage.setItem(pubKey, env.lastModified);
         navigate(`/${env.programme}/${encodeURIComponent(env.publication)}?envUri=${encodeURIComponent(env.envelopeUri)}`);
     }
 
@@ -57,11 +69,17 @@ function PublicationsList() {
                             <div key={subject} style={styles.subjectGroup}>
                                 <h3>{subject}</h3>
                                 <ul style={styles.publicationList}>
-                                    {pubs.map((env, idx) => (
-                                        <li key={idx} style={styles.publicationItem} onClick={() => handleClick(env)}>
-                                            {env.publication}
-                                        </li>
-                                    ))}
+                                    {pubs.map((env, idx) => {
+                                        const highlight = isPublicationHighlighted(env);
+                                        const pubStyle = highlight ? styles.highlightLink : {};
+                                        return (
+                                            <li key={idx} style={styles.publicationItem} onClick={() => handleClick(env)}>
+                                                <span style={{ ...pubStyle, cursor: 'pointer' }}>
+                                                    {env.publication}
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </div>
                         ))}
@@ -73,23 +91,11 @@ function PublicationsList() {
 }
 
 const styles = {
-    programmeBlock: {
-        border: '1px solid #ccc',
-        padding: '1rem',
-        marginBottom: '1rem'
-    },
-    subjectGroup: {
-        marginBottom: '1rem'
-    },
-    publicationList: {
-        listStyle: 'none',
-        paddingLeft: '0'
-    },
-    publicationItem: {
-        cursor: 'pointer',
-        marginBottom: '0.5rem',
-        textDecoration: 'underline'
-    }
+    programmeBlock: { border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' },
+    subjectGroup: { marginBottom: '1rem' },
+    publicationList: { listStyle: 'none', paddingLeft: '0' },
+    publicationItem: { marginBottom: '0.5rem', textDecoration: 'underline' },
+    highlightLink: { color: 'red', fontWeight: 'bold' }
 };
 
 export default PublicationsList;

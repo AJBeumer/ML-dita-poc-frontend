@@ -8,27 +8,27 @@
           "publication": "Clogs",
           "language": "en",
           "status": "go-live",
-          "lastModified": "2025-04-11T18:31:22+02:00",
+          "lastModified": "2025-04-14T20:05:16+02:00",
           "ditamapUri": "/dita-maps/clogs.ditamap",
           "topics": [
             {
               "uri": "/dita-xml/why.xml",
               "title": "Why this Sandbox?",
               "status": "go-live",
-              "lastModified": "2025-04-10T22:13:46+02:00",
+              "lastModified": "2025-04-14T17:23:02+02:00",
               "children": [
                 {
                   "uri": "/dita-xml/sample.xml",
                   "title": "Sample content",
                   "status": "go-live",
-                  "lastModified": "2025-04-10T17:03:57+02:00",
+                  "lastModified": "2025-04-14T17:23:02+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/feedback.xml",
                   "title": "Feedback",
                   "status": "go-live",
-                  "lastModified": "2025-04-10T17:03:57+02:00",
+                  "lastModified": "2025-04-14T17:23:02+02:00",
                   "children": []
                 }
               ]
@@ -37,34 +37,34 @@
               "uri": "/dita-xml/clog.xml",
               "title": "Clog",
               "status": "go-live",
-              "lastModified": "2025-04-10T17:03:56+02:00",
+              "lastModified": "2025-04-14T17:23:02+02:00",
               "children": [
                 {
                   "uri": "/dita-xml/contents.xml",
                   "title": "Contents",
                   "status": "go-live",
-                  "lastModified": "2025-04-10T17:03:56+02:00",
+                  "lastModified": "2025-04-14T17:23:02+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/traditional.xml",
                   "title": "Traditional clogs in Europe",
                   "status": "go-live",
-                  "lastModified": "2025-04-10T17:03:57+02:00",
+                  "lastModified": "2025-04-14T17:23:02+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/fashion.xml",
                   "title": "Fashion clogs",
                   "status": "go-live",
-                  "lastModified": "2025-04-10T17:03:57+02:00",
+                  "lastModified": "2025-04-14T17:23:02+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/museum.xml",
                   "title": "Museum",
                   "status": "go-live",
-                  "lastModified": "2025-04-11T18:31:22+02:00",
+                  "lastModified": "2025-04-14T20:05:16+02:00",
                   "children": []
                 }
               ]
@@ -73,7 +73,7 @@
               "uri": "/dita-xml/glossary.xml",
               "title": "Glossary",
               "status": "go-live",
-              "lastModified": "2025-04-10T17:03:57+02:00",
+              "lastModified": "2025-04-14T17:23:02+02:00",
               "children": []
             }
           ],
@@ -81,27 +81,27 @@
             {
               "uri": "/dita-images/Fonto_logo.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             },
             {
               "uri": "/dita-images/Dutchclogs.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             },
             {
               "uri": "/dita-images/Clog-Berkemann-white.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:32+02:00"
+              "lastModified": "2025-04-14T19:17:34+02:00"
             },
             {
               "uri": "/dita-images/1280px-Muensterlaender-holzklumpen.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:30+02:00"
+              "lastModified": "2025-04-14T19:17:32+02:00"
             },
             {
               "uri": "/dita-images/Danishclogs.JPG",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             }
           ]
         },
@@ -109,27 +109,27 @@
           "publication": "Le Clogs",
           "language": "fr",
           "status": "go-live",
-          "lastModified": "2025-04-14T14:13:34+02:00",
+          "lastModified": "2025-04-14T19:17:36+02:00",
           "ditamapUri": "/dita-maps/clogs_fr.ditamap",
           "topics": [
             {
               "uri": "/dita-xml/why_fr.xml",
               "title": "Why this Sandbox?",
               "status": "go-live",
-              "lastModified": "2025-04-14T14:13:34+02:00",
+              "lastModified": "2025-04-14T19:17:36+02:00",
               "children": [
                 {
                   "uri": "/dita-xml/sample_fr.xml",
                   "title": "Sample content",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/feedback_fr.xml",
                   "title": "Feedback",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 }
               ]
@@ -138,34 +138,34 @@
               "uri": "/dita-xml/clog_fr.xml",
               "title": "Clog",
               "status": "go-live",
-              "lastModified": "2025-04-14T14:13:34+02:00",
+              "lastModified": "2025-04-14T19:17:36+02:00",
               "children": [
                 {
                   "uri": "/dita-xml/contents_fr.xml",
                   "title": "Contents",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/traditional_fr.xml",
                   "title": "Traditional clogs in Europe",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/fashion_fr.xml",
                   "title": "Fashion clogs",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 },
                 {
                   "uri": "/dita-xml/museum_fr.xml",
                   "title": "Museum",
                   "status": "go-live",
-                  "lastModified": "2025-04-14T14:13:34+02:00",
+                  "lastModified": "2025-04-14T19:17:36+02:00",
                   "children": []
                 }
               ]
@@ -174,7 +174,7 @@
               "uri": "/dita-xml/glossary_fr.xml",
               "title": "Glossary",
               "status": "go-live",
-              "lastModified": "2025-04-14T14:13:34+02:00",
+              "lastModified": "2025-04-14T19:17:36+02:00",
               "children": []
             }
           ],
@@ -182,27 +182,27 @@
             {
               "uri": "/dita-images/Fonto_logo.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             },
             {
               "uri": "/dita-images/Dutchclogs.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             },
             {
               "uri": "/dita-images/Clog-Berkemann-white.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:32+02:00"
+              "lastModified": "2025-04-14T19:17:34+02:00"
             },
             {
               "uri": "/dita-images/1280px-Muensterlaender-holzklumpen.jpg",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:30+02:00"
+              "lastModified": "2025-04-14T19:17:32+02:00"
             },
             {
               "uri": "/dita-images/Danishclogs.JPG",
               "type": "application/octet-stream",
-              "lastModified": "2025-04-14T14:13:34+02:00"
+              "lastModified": "2025-04-14T19:17:36+02:00"
             }
           ]
         }
