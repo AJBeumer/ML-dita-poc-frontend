@@ -1,21 +1,21 @@
 // src/components/PublicationPage.js
 import React, { useEffect, useState } from 'react';
-import { Outlet, useParams, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation, useNavigate } from 'react-router-dom';
 import LeftMenu from './LeftMenu';
 import '../App.css';
 
 function PublicationPage() {
     const { programme, publicationName } = useParams();
-    const { search } = useLocation(); // Removed 'pathname' as it was unused
+    const { search, pathname } = useLocation();
+    const navigate = useNavigate();
     const [envUri, setEnvUri] = useState(null);
     const [envelopeData, setEnvelopeData] = useState(null);
 
-    // Attempt to retrieve envelope URI from query string.
+    // Retrieve envelope URI from query string or locate it if missing
     useEffect(() => {
         async function loadEnvUri() {
             let uri = new URLSearchParams(search).get('envUri');
             if (!uri) {
-                // If envUri is missing, fetch all envelopes and locate the matching one.
                 try {
                     const res = await fetch('http://localhost:3001/api/envelopes');
                     if (!res.ok) {
@@ -62,6 +62,19 @@ function PublicationPage() {
         loadEnvelope();
     }, [envUri]);
 
+    // Automatically navigate to the first topic if not already in a topic route
+    useEffect(() => {
+        if (!envelopeData) return;
+        const topics =
+            envelopeData.instance &&
+            envelopeData.instance.ditaMap &&
+            envelopeData.instance.ditaMap.files;
+        if (topics && topics.length > 0 && !pathname.includes('/topic/')) {
+            // Navigate to the first topic (relative route)
+            navigate(`topic/${encodeURIComponent(topics[0].uri)}`);
+        }
+    }, [envelopeData, pathname, navigate]);
+
     if (!envUri) {
         return <div>No envelope URI provided for publication: {publicationName}</div>;
     }
@@ -71,7 +84,11 @@ function PublicationPage() {
     }
 
     const pubLastModified = envelopeData.headers.lastModified;
-    const topics = envelopeData.instance.ditaMap.files || [];
+    const topics =
+        (envelopeData.instance &&
+            envelopeData.instance.ditaMap &&
+            envelopeData.instance.ditaMap.files) ||
+        [];
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '250px 1fr' }}>

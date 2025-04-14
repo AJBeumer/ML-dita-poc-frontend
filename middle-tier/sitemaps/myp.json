@@ -1,4 +1,71 @@
 {
   "programme": "MYP",
-  "subjects": []
+  "subjects": [
+    {
+      "subject": "Guidance",
+      "publications": [
+        {
+          "publication": "Guidance on unit planning",
+          "language": "en",
+          "status": "go-live",
+          "lastModified": "2025-04-14T20:50:57+02:00",
+          "ditamapUri": "/dita-maps/Guidance_on_unit_planning.ditamap",
+          "topics": [
+            {
+              "uri": "/dita-xml/What_is_unit.xml",
+              "title": "What is unit planning according to the IB?",
+              "status": "go-live",
+              "lastModified": "2025-04-14T20:50:57+02:00",
+              "children": []
+            },
+            {
+              "uri": "/dita-xml/Why_is_unit.xml",
+              "title": "Why is unit planning important?",
+              "status": "go-live",
+              "lastModified": "2025-04-14T20:50:57+02:00",
+              "children": []
+            },
+            {
+              "uri": "/dita-xml/The_core_of_unit.xml",
+              "title": "The core of unit planning in IB programmes",
+              "status": "go-live",
+              "lastModified": "2025-04-14T20:50:57+02:00",
+              "children": []
+            },
+            {
+              "uri": "/dita-xml/Inquiry_questions.xml",
+              "title": "Inquiry questions and statements",
+              "status": "go-live",
+              "lastModified": "2025-04-14T20:50:56+02:00",
+              "children": []
+            },
+            {
+              "uri": "/dita-xml/What_about.xml",
+              "title": "What about assessment?",
+              "status": "go-live",
+              "lastModified": "2025-04-14T20:50:57+02:00",
+              "children": []
+            }
+          ],
+          "attachments": [
+            {
+              "uri": "/dita-images/Mobius_strip.jpg",
+              "type": "application/octet-stream",
+              "lastModified": "2025-04-14T20:50:57+02:00"
+            },
+            {
+              "uri": "/dita-images/5_sec_rule.jpg",
+              "type": "application/octet-stream",
+              "lastModified": "2025-04-14T20:50:53+02:00"
+            },
+            {
+              "uri": "/dita-images/impossible.jpg",
+              "type": "application/octet-stream",
+              "lastModified": "2025-04-14T20:50:56+02:00"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

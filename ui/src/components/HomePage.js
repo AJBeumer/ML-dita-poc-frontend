@@ -1,7 +1,6 @@
 // src/components/HomePage.js
-
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
     const [dpData, setDpData] = useState(null);
@@ -24,33 +23,33 @@ function HomePage() {
                 console.error(`Error fetching sitemap for ${programme}:`, err);
             }
         }
-
         loadProgramme('dp', setDpData);
         loadProgramme('cp', setCpData);
         loadProgramme('myp', setMypData);
         loadProgramme('pyp', setPypData);
     }, []);
 
-    // Check if publication is brand new or updated
+    // Publication is highlighted if it was updated within the last 10 minutes OR
+    // if its localStorage entry is missing or older than the current publication's lastModified.
     function isPublicationHighlighted(pub) {
-        const lastSeenKey = `pubLastSeen_${pub.publication}`;
-        const storedTimestamp = localStorage.getItem(lastSeenKey);
-        if (!storedTimestamp) {
-            // No record => brand new => highlight
-            return true;
-        }
-        // Compare lastModified
+        const now = new Date();
         const pubLastModified = new Date(pub.lastModified);
-        const lastSeen = new Date(storedTimestamp);
-        return pubLastModified > lastSeen;
+        const recencyHighlight = ((now - pubLastModified) / (1000 * 60)) <= 10;
+
+        const pubKey = `pubLastSeen_${pub.publication}`;
+        const storedTimestamp = localStorage.getItem(pubKey);
+        const localStorageHighlight = !storedTimestamp || pubLastModified > new Date(storedTimestamp);
+
+        console.log(
+            `Publication "${pub.publication}" recencyHighlight: ${recencyHighlight}, localStorageHighlight: ${localStorageHighlight}`
+        );
+        return recencyHighlight || localStorageHighlight;
     }
 
     function handlePublicationClick(pub) {
-        const lastSeenKey = `pubLastSeen_${pub.publication}`;
-        // Mark the publication as 'seen' by setting localStorage
-        localStorage.setItem(lastSeenKey, pub.lastModified);
-
-        // Navigate to the publication detail
+        const pubKey = `pubLastSeen_${pub.publication}`;
+        // When a publication is clicked, record its current lastModified timestamp
+        localStorage.setItem(pubKey, pub.lastModified);
         navigate(`/${encodeURIComponent(pub.programme)}/${encodeURIComponent(pub.publication)}`);
     }
 
@@ -74,13 +73,9 @@ function HomePage() {
                             const pubStyle = highlight ? styles.highlightLink : {};
                             return (
                                 <div key={idx2}>
-                                    {/* Instead of a <Link>, we handle onClick to set localStorage. */}
-                                    <span
-                                        onClick={() => handlePublicationClick(pub)}
-                                        style={{ ...styles.pubLink, ...pubStyle }}
-                                    >
-                    {pub.publication}
-                  </span>
+                                    <span onClick={() => handlePublicationClick(pub)} style={{ ...styles.pubLink, ...pubStyle }}>
+                                        {pub.publication}
+                                    </span>
                                 </div>
                             );
                         })}
@@ -105,22 +100,11 @@ function HomePage() {
 
 const styles = {
     container: { padding: '1rem', maxWidth: '960px', margin: '0 auto' },
-    fourColumn: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '1rem',
-        marginTop: '1rem'
-    },
+    fourColumn: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1rem' },
     column: { border: '1px solid #ccc', padding: '1rem', minHeight: '200px' },
     subjectBlock: { marginBottom: '1rem' },
-    pubLink: {
-        cursor: 'pointer',
-        textDecoration: 'underline'
-    },
-    highlightLink: {
-        color: 'red',
-        fontWeight: 'bold'
-    }
+    pubLink: { cursor: 'pointer', textDecoration: 'underline' },
+    highlightLink: { color: 'red', fontWeight: 'bold' }
 };
 
 export default HomePage;
