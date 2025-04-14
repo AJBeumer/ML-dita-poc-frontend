@@ -3,10 +3,22 @@
     background-color: #063353;
     color: #fff;
     padding: 1rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.nav .home-link {
+.header-left {
+    /* Home link remains on the left */
+    flex: 1;
+}
+
+.header-right {
+    /* Right side: position the dropdown at the far right */
+    text-align: right;
+}
+
+.home-link {
     color: #fff;
     font-weight: bold;
     text-decoration: none;

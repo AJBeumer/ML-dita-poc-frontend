@@ -1,8 +1,11 @@
 // src/components/HomePage.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from './LanguageSelector';
 
 function HomePage() {
+    const { t } = useTranslation();
     const [dpData, setDpData] = useState(null);
     const [cpData, setCpData] = useState(null);
     const [mypData, setMypData] = useState(null);
@@ -14,42 +17,34 @@ function HomePage() {
             try {
                 const res = await fetch(`http://localhost:3001/api/sitemap/${programme}`);
                 if (!res.ok) {
-                    console.warn(`Sitemap for ${programme} not found`);
+                    console.warn(t('SitemapNotFound', { programme }));
                     return;
                 }
                 const data = await res.json();
                 setFn(data);
             } catch (err) {
-                console.error(`Error fetching sitemap for ${programme}:`, err);
+                console.error(t('ErrorFetchingSitemap', { programme, error: err.message }));
             }
         }
         loadProgramme('dp', setDpData);
         loadProgramme('cp', setCpData);
         loadProgramme('myp', setMypData);
         loadProgramme('pyp', setPypData);
-    }, []);
+    }, [t]);
 
-    // Publication is highlighted if it was updated within the last 10 minutes OR
-    // if its localStorage entry is missing or older than the current publication's lastModified.
+    // Publication is highlighted if its lastModified is newer than the stored value.
     function isPublicationHighlighted(pub) {
-        const now = new Date();
+        const lastSeenKey = `pubLastSeen_${pub.publication}`;
+        const storedTimestamp = localStorage.getItem(lastSeenKey);
+        if (!storedTimestamp) return true;
         const pubLastModified = new Date(pub.lastModified);
-        const recencyHighlight = ((now - pubLastModified) / (1000 * 60)) <= 10;
-
-        const pubKey = `pubLastSeen_${pub.publication}`;
-        const storedTimestamp = localStorage.getItem(pubKey);
-        const localStorageHighlight = !storedTimestamp || pubLastModified > new Date(storedTimestamp);
-
-        console.log(
-            `Publication "${pub.publication}" recencyHighlight: ${recencyHighlight}, localStorageHighlight: ${localStorageHighlight}`
-        );
-        return recencyHighlight || localStorageHighlight;
+        const lastSeen = new Date(storedTimestamp);
+        return pubLastModified > lastSeen;
     }
 
     function handlePublicationClick(pub) {
-        const pubKey = `pubLastSeen_${pub.publication}`;
-        // When a publication is clicked, record its current lastModified timestamp
-        localStorage.setItem(pubKey, pub.lastModified);
+        const lastSeenKey = `pubLastSeen_${pub.publication}`;
+        localStorage.setItem(lastSeenKey, pub.lastModified);
         navigate(`/${encodeURIComponent(pub.programme)}/${encodeURIComponent(pub.publication)}`);
     }
 
@@ -58,7 +53,7 @@ function HomePage() {
             return (
                 <div style={styles.column}>
                     <h2>{progName.toUpperCase()}</h2>
-                    <p>Loading or no data...</p>
+                    <p>{t('LoadingOrNoData')}</p>
                 </div>
             );
         }
@@ -73,7 +68,10 @@ function HomePage() {
                             const pubStyle = highlight ? styles.highlightLink : {};
                             return (
                                 <div key={idx2}>
-                                    <span onClick={() => handlePublicationClick(pub)} style={{ ...styles.pubLink, ...pubStyle }}>
+                                    <span
+                                        onClick={() => handlePublicationClick(pub)}
+                                        style={{ ...styles.pubLink, ...pubStyle }}
+                                    >
                                         {pub.publication}
                                     </span>
                                 </div>
@@ -87,7 +85,10 @@ function HomePage() {
 
     return (
         <div style={styles.container}>
-            <h1>Welcome to the DITA Publications</h1>
+            <header style={styles.header}>
+                <h1>{t('WelcomeToDITAPublications')}</h1>
+                <LanguageSelector />
+            </header>
             <div style={styles.fourColumn}>
                 {renderProgrammeBlock('dp', dpData)}
                 {renderProgrammeBlock('cp', cpData)}
@@ -100,6 +101,7 @@ function HomePage() {
 
 const styles = {
     container: { padding: '1rem', maxWidth: '960px', margin: '0 auto' },
+    header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     fourColumn: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1rem' },
     column: { border: '1px solid #ccc', padding: '1rem', minHeight: '200px' },
     subjectBlock: { marginBottom: '1rem' },

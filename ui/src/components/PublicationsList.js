@@ -1,66 +1,58 @@
 // src/components/PublicationsList.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function PublicationsList() {
     const [groupedSitemaps, setGroupedSitemaps] = useState({});
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         async function loadEnvelopes() {
             try {
                 const res = await fetch('http://localhost:3001/api/envelopes');
                 if (!res.ok) {
-                    console.warn('Error fetching envelopes.');
+                    console.warn(t('ErrorFetchingEnvelopes'));
                     return;
                 }
                 const data = await res.json();
-                // Group by programme, then within programme group by subject.
-                const grouped = data.reduce((acc, env) => {
-                    const prog = env.programme.toUpperCase();
-                    if (!acc[prog]) acc[prog] = {};
+                // Filter out any undefined/null entries
+                const filteredData = data.filter(env => env);
+                // Group by programme then subject
+                const grouped = filteredData.reduce((acc, env) => {
+                    const prog = (env.programme || 'DP').toUpperCase();
+                    if (!acc[prog]) {
+                        acc[prog] = {};
+                    }
                     const subject = env.subject || 'General';
-                    if (!acc[prog][subject]) acc[prog][subject] = [];
+                    if (!acc[prog][subject]) {
+                        acc[prog][subject] = [];
+                    }
                     acc[prog][subject].push(env);
                     return acc;
                 }, {});
+                console.log('Grouped sitemaps:', grouped);
                 setGroupedSitemaps(grouped);
             } catch (err) {
-                console.error('Error loading envelopes in PublicationsList:', err);
+                console.error(t('ErrorLoadingEnvelopes'), err);
             }
         }
         loadEnvelopes();
-    }, []);
-
-    // Publication is highlighted if its lastModified timestamp is within the last 10 minutes OR
-    // if there's no localStorage record or the stored value is older than the publication's lastModified.
-    function isPublicationHighlighted(pub) {
-        const now = new Date();
-        const pubLastModified = new Date(pub.lastModified);
-        const recencyHighlight = ((now - pubLastModified) / (1000 * 60)) <= 10;
-
-        const pubKey = `pubLastSeen_${pub.publication}`;
-        const storedTimestamp = localStorage.getItem(pubKey);
-        const localStorageHighlight = !storedTimestamp || pubLastModified > new Date(storedTimestamp);
-
-        console.log(
-            `Publication "${pub.publication}" recencyHighlight: ${recencyHighlight}, localStorageHighlight: ${localStorageHighlight}`
-        );
-        return recencyHighlight || localStorageHighlight;
-    }
+    }, [t]);
 
     function handleClick(env) {
-        const pubKey = `pubLastSeen_${env.publication}`;
-        // When clicking a publication, store its current lastModified value
-        localStorage.setItem(pubKey, env.lastModified);
+        // Mark publication as seen
+        localStorage.setItem(`pubLastSeen_${env.publication}`, env.lastModified);
+        // Navigate to PublicationPage, sending the envelope URI in a query parameter
         navigate(`/${env.programme}/${encodeURIComponent(env.publication)}?envUri=${encodeURIComponent(env.envelopeUri)}`);
     }
 
     return (
         <div>
-            <h1>Publications</h1>
+            <h1>{t('Publications')}</h1>
             {Object.keys(groupedSitemaps).length === 0 ? (
-                <p>Loading envelopes...</p>
+                <p>{t('LoadingEnvelopes')}</p>
             ) : (
                 Object.entries(groupedSitemaps).map(([prog, subjects]) => (
                     <div key={prog} style={styles.programmeBlock}>
@@ -69,17 +61,11 @@ function PublicationsList() {
                             <div key={subject} style={styles.subjectGroup}>
                                 <h3>{subject}</h3>
                                 <ul style={styles.publicationList}>
-                                    {pubs.map((env, idx) => {
-                                        const highlight = isPublicationHighlighted(env);
-                                        const pubStyle = highlight ? styles.highlightLink : {};
-                                        return (
-                                            <li key={idx} style={styles.publicationItem} onClick={() => handleClick(env)}>
-                                                <span style={{ ...pubStyle, cursor: 'pointer' }}>
-                                                    {env.publication}
-                                                </span>
-                                            </li>
-                                        );
-                                    })}
+                                    {pubs.map((env, idx) => (
+                                        <li key={idx} style={styles.publicationItem} onClick={() => handleClick(env)}>
+                                            {env.publication}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         ))}
@@ -91,11 +77,23 @@ function PublicationsList() {
 }
 
 const styles = {
-    programmeBlock: { border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' },
-    subjectGroup: { marginBottom: '1rem' },
-    publicationList: { listStyle: 'none', paddingLeft: '0' },
-    publicationItem: { marginBottom: '0.5rem', textDecoration: 'underline' },
-    highlightLink: { color: 'red', fontWeight: 'bold' }
+    programmeBlock: {
+        border: '1px solid #ccc',
+        padding: '1rem',
+        marginBottom: '1rem'
+    },
+    subjectGroup: {
+        marginBottom: '1rem'
+    },
+    publicationList: {
+        listStyle: 'none',
+        paddingLeft: '0'
+    },
+    publicationItem: {
+        cursor: 'pointer',
+        marginBottom: '0.5rem',
+        textDecoration: 'underline'
+    }
 };
 
 export default PublicationsList;

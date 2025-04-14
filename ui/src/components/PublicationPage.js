@@ -1,10 +1,12 @@
 // src/components/PublicationPage.js
 import React, { useEffect, useState } from 'react';
 import { Outlet, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import LeftMenu from './LeftMenu';
 import '../App.css';
 
 function PublicationPage() {
+    const { t } = useTranslation();
     const { programme, publicationName } = useParams();
     const { search, pathname } = useLocation();
     const navigate = useNavigate();
@@ -65,10 +67,7 @@ function PublicationPage() {
     // Automatically navigate to the first topic if not already in a topic route
     useEffect(() => {
         if (!envelopeData) return;
-        const topics =
-            envelopeData.instance &&
-            envelopeData.instance.ditaMap &&
-            envelopeData.instance.ditaMap.files;
+        const topics = envelopeData.instance && envelopeData.instance.ditaMap && envelopeData.instance.ditaMap.files;
         if (topics && topics.length > 0 && !pathname.includes('/topic/')) {
             // Navigate to the first topic (relative route)
             navigate(`topic/${encodeURIComponent(topics[0].uri)}`);
@@ -76,11 +75,11 @@ function PublicationPage() {
     }, [envelopeData, pathname, navigate]);
 
     if (!envUri) {
-        return <div>No envelope URI provided for publication: {publicationName}</div>;
+        return <div>{t('NoEnvelopeURI', { publication: publicationName })}</div>;
     }
 
     if (!envelopeData) {
-        return <div>Loading publication envelope for {publicationName}...</div>;
+        return <div>{t('LoadingEnvelope', { publication: publicationName })}</div>;
     }
 
     const pubLastModified = envelopeData.headers.lastModified;
@@ -101,7 +100,7 @@ function PublicationPage() {
                 />
             </div>
             <div style={{ padding: '1rem' }}>
-                <h2>Publication: {publicationName}</h2>
+                <h2>{t('PublicationLabel', { publication: publicationName })}</h2>
                 <Outlet />
             </div>
         </div>
