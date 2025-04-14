@@ -7,14 +7,14 @@
   },
   {
     "publication": "Clogs2",
-    "programme": "DP",
-    "envelopeUri": "/data/dita-envelope/clogs2-envelope-2.json",
+    "programme": "CP",
+    "envelopeUri": "/data/dita-envelope/clogs-envelope-2.json",
     "lastModified": "2025-02-26T14:17:04+01:00"
   },
   {
-  "publication": "Clogs3",
-  "programme": "DP",
-  "envelopeUri": "/data/dita-envelope/clog-envelope-3.json",
-  "lastModified": "2025-02-26T14:17:04+01:00"
-}
+    "publication": "Clogs3",
+    "programme": "MYP",
+    "envelopeUri": "/data/dita-envelope/clogs-envelope-3.json",
+    "lastModified": "2025-02-26T14:17:04+01:00"
+  }
 ]

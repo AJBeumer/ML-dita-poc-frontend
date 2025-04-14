@@ -6,9 +6,10 @@
 "type": "application/xml",
   "publication": "Clogs",
 "programme": "DP",
+  "ib-subject": "maths",
 "translationOf": "", 
 "status": "go-live", 
-"lastModified": "2025-02-26T14:17:04+01:00"
+"lastModified": "2025-02-27T14:17:04+01:00"
 }, 
 "triples": [
 ], 

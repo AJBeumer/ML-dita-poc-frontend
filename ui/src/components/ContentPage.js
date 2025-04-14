@@ -1,74 +1,65 @@
+// src/components/ContentPage.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchAndParseXML } from '../fetchDita';
-import LeftMenu from './LeftMenu';
-
-// This page is responsible for showing a left-hand menu
-// plus the content of the selected topic.
+import { DitaNode } from './DitaRenderer';
+import '../App.css';  // Assuming your CSS is here // Assuming your CSS is here
 
 function ContentPage() {
-    const { topicId } = useParams();
-    // topicId might be the encoded URI like "/dita-xml/clog.xml"
+    const { topicId } = useParams(); // Should be "/dita-xml/sample.xml"
     const [parsedXml, setParsedXml] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // fetch the actual file
-        const path = decodeURIComponent(topicId).replace(/^\/dita-xml/, '');
-        fetchAndParseXML('/data' + path)
+        if (!topicId) {
+            console.error("ContentPage: No topicId provided in URL parameters.");
+            return;
+        }
+        // topicId should already start with a slash; if not, normalize.
+        const normalizedTopicId = topicId.startsWith('/') ? topicId : `/dita-xml/${topicId}`;
+        const apiUrl = `http://localhost:3001/api/dita-xml?uri=${encodeURIComponent(normalizedTopicId)}`;
+        console.log('ContentPage - Fetching from:', apiUrl);
+        fetch(apiUrl)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                return res.json();
+            })
             .then(data => {
+                console.log('ContentPage - Fetched data:', data);
                 setParsedXml(data);
             })
-            .catch(err => console.error('Error loading or parsing topic', err));
+            .catch(err => {
+                console.error('Error fetching topic from Node API:', err);
+                setError(err);
+            });
     }, [topicId]);
 
-    // We'll just display basic elements (title, paragraphs, etc.)
-    if (!parsedXml) {
-        return <div>Loading...</div>;
+    if (error) {
+        return <div>Error: {error.message}</div>;
     }
+    if (!parsedXml) return <div>Loading content...</div>;
 
-    // DITA <topic> can appear in the parsed object as data.topic.title, data.topic.body, etc.
-    const topic = parsedXml.topic || parsedXml.concept || parsedXml.glossgroup || {};
-    const title = topic.title;
-    const body = topic.body || topic.conbody;
-
-    // We'll do a naive render of body paragraphs
-    const paragraphs = [];
-    if (body?.p) {
-        if (Array.isArray(body.p)) {
-            paragraphs.push(...body.p);
-        } else {
-            paragraphs.push(body.p);
-        }
+    const root =
+        parsedXml.topic ||
+        parsedXml.concept ||
+        parsedXml.task ||
+        parsedXml.reference ||
+        parsedXml.glossgroup ||
+        {};
+    let title = 'No Title';
+    if (root.title) {
+        title =
+            typeof root.title === 'object' && root.title['#text']
+                ? root.title['#text']
+                : root.title;
     }
+    const body = root.body || root.conbody;
 
     return (
-        <div style={styles.container}>
-            <div style={styles.leftMenu}>
-                <LeftMenu />
-            </div>
-            <div style={styles.content}>
-                <h1>{title}</h1>
-                {paragraphs.map((p, i) => (
-                    <p key={i}>{p}</p>
-                ))}
-                {/* If you have <fig>, <table>, etc., handle them similarly. */}
-            </div>
+        <div style={{ padding: '1rem' }}>
+            <h1>{title}</h1>
+            {body ? <DitaNode node={body} /> : <div>No body content found.</div>}
         </div>
     );
 }
-
-const styles = {
-    container: {
-        display: 'grid',
-        gridTemplateColumns: '250px 1fr',
-    },
-    leftMenu: {
-        borderRight: '1px solid #ccc',
-        padding: '1rem'
-    },
-    content: {
-        padding: '1rem'
-    }
-};
 
 export default ContentPage;

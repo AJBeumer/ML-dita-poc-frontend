@@ -2,9 +2,9 @@
 "envelope": {
 "headers": {
 "language": "en", 
-"uri": "/dita-maps/clogs2.ditamap",
+"uri": "/dita-maps/clogs3.ditamap",
 "type": "application/xml",
-  "publication": "Clogs",
+  "publication": "Clogs3",
 "programme": "DP",
   "ib-subject": "maths",
 "translationOf": "", 
