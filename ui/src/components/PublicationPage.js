@@ -6,45 +6,87 @@ import LeftMenu from './LeftMenu';
 import '../App.css';
 
 function PublicationPage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { programme, publicationName } = useParams();
     const { search, pathname } = useLocation();
     const navigate = useNavigate();
     const [envUri, setEnvUri] = useState(null);
     const [envelopeData, setEnvelopeData] = useState(null);
 
-    // Retrieve envelope URI from query string or locate it if missing
+    // Helper function to fetch envelopes for a given language.
+    async function fetchEnvsForLang(lang) {
+        try {
+            const res = await fetch(`http://localhost:3001/api/envelopes?lang=${lang}`);
+            if (!res.ok) {
+                console.error('Error fetching envelopes for language', lang);
+                return [];
+            }
+            return await res.json();
+        } catch (err) {
+            console.error('Error in fetchEnvsForLang:', err);
+            return [];
+        }
+    }
+
+    // Envelope lookup effect. Fallback to English if needed.
+// ...
     useEffect(() => {
         async function loadEnvUri() {
-            let uri = new URLSearchParams(search).get('envUri');
-            if (!uri) {
-                try {
-                    const res = await fetch('http://localhost:3001/api/envelopes');
-                    if (!res.ok) {
-                        console.error('Error fetching envelopes for matching.');
-                        return;
-                    }
-                    const allEnvs = await res.json();
-                    const found = allEnvs.find(
-                        env => env.publication === publicationName && env.programme === programme
-                    );
-                    if (found) {
-                        uri = found.envelopeUri;
-                    } else {
-                        console.error(`No envelope found for publication: ${publicationName} and programme: ${programme}`);
-                        return;
-                    }
-                } catch (err) {
-                    console.error('Error fetching envelopes:', err);
-                    return;
-                }
+            const urlParams = new URLSearchParams(search);
+            let uri = urlParams.get('envUri');
+            const currentLang = i18n.language.toLowerCase();
+            // Retrieve stored translationGroup using programme in lowercase.
+            const storedGroupKey = `translationGroup_${programme.toLowerCase()}`;
+            const storedGroup = localStorage.getItem(storedGroupKey);
+            console.log('[PublicationPage] Current language:', currentLang);
+            console.log('[PublicationPage] URL publicationName:', publicationName);
+            console.log('[PublicationPage] Programme from URL:', programme);
+            console.log('[PublicationPage] Stored translationGroup (' + storedGroupKey + '):', storedGroup);
+
+            let allEnvs = await fetchEnvsForLang(currentLang);
+            if(allEnvs.length === 0){
+                console.warn(`[PublicationPage] No envelopes found for language ${currentLang}, falling back to English.`);
+                allEnvs = await fetchEnvsForLang('en');
             }
+            console.log('[PublicationPage] All envelopes fetched:', allEnvs);
+
+            let candidates = [];
+            if (storedGroup) {
+                candidates = allEnvs.filter(
+                    env =>
+                        env.translationGroup.toLowerCase() === storedGroup.toLowerCase() &&
+                        env.programme.toLowerCase() === programme.toLowerCase()
+                );
+                console.log('[PublicationPage] Candidates using stored translationGroup:', candidates);
+            } else {
+                candidates = allEnvs.filter(
+                    env =>
+                        env.publication.toLowerCase() === publicationName.toLowerCase() &&
+                        env.programme.toLowerCase() === programme.toLowerCase()
+                );
+                console.log('[PublicationPage] Candidates by publication name:', candidates);
+            }
+            if (candidates.length === 0) {
+                console.error(`No envelope found for publication: ${publicationName} and programme: ${programme} in language ${currentLang}`);
+                return;
+            }
+            let candidate = candidates.find(env => env.language.toLowerCase() === currentLang);
+            if (!candidate) {
+                console.warn(`No envelope found in language ${currentLang}, falling back to English.`);
+                candidate = candidates.find(env => env.language.toLowerCase() === 'en');
+            }
+            if (!candidate) {
+                candidate = candidates[0];
+            }
+            uri = candidate.envelopeUri;
+            console.log('[PublicationPage] Selected envelopeUri:', uri);
             setEnvUri(uri);
         }
         loadEnvUri();
-    }, [search, publicationName, programme]);
+    }, [search, publicationName, programme, i18n.language, navigate]);
 
-    // Fetch the envelope using envUri
+
+    // Fetch the envelope using envUri.
     useEffect(() => {
         async function loadEnvelope() {
             if (!envUri) return;
@@ -56,6 +98,7 @@ function PublicationPage() {
                     return;
                 }
                 const data = await res.json();
+                console.log('[PublicationPage] Loaded envelope data:', data.envelope);
                 setEnvelopeData(data.envelope);
             } catch (err) {
                 console.error('Error fetching envelope:', err);
@@ -64,12 +107,25 @@ function PublicationPage() {
         loadEnvelope();
     }, [envUri]);
 
-    // Automatically navigate to the first topic if not already in a topic route
+    // Update URL if loaded envelope's publication differs from URL parameter.
+    useEffect(() => {
+        if (envelopeData && envelopeData.headers && envelopeData.headers.publication) {
+            const actualPub = envelopeData.headers.publication;
+            if (actualPub.toLowerCase() !== publicationName.toLowerCase()) {
+                console.log('[PublicationPage] Updating URL publication name from', publicationName, 'to', actualPub);
+                navigate(`/${programme.toLowerCase()}/${encodeURIComponent(actualPub)}`, { replace: true });
+            }
+        }
+    }, [envelopeData, publicationName, programme, navigate]);
+
+    // Auto-navigate to the first topic if needed.
     useEffect(() => {
         if (!envelopeData) return;
-        const topics = envelopeData.instance && envelopeData.instance.ditaMap && envelopeData.instance.ditaMap.files;
+        const topics =
+            envelopeData.instance &&
+            envelopeData.instance.ditaMap &&
+            envelopeData.instance.ditaMap.files;
         if (topics && topics.length > 0 && !pathname.includes('/topic/')) {
-            // Navigate to the first topic (relative route)
             navigate(`topic/${encodeURIComponent(topics[0].uri)}`);
         }
     }, [envelopeData, pathname, navigate]);
@@ -77,7 +133,6 @@ function PublicationPage() {
     if (!envUri) {
         return <div>{t('NoEnvelopeURI', { publication: publicationName })}</div>;
     }
-
     if (!envelopeData) {
         return <div>{t('LoadingEnvelope', { publication: publicationName })}</div>;
     }
@@ -86,8 +141,7 @@ function PublicationPage() {
     const topics =
         (envelopeData.instance &&
             envelopeData.instance.ditaMap &&
-            envelopeData.instance.ditaMap.files) ||
-        [];
+            envelopeData.instance.ditaMap.files) || [];
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: '250px 1fr' }}>

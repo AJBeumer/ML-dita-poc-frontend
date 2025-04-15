@@ -4,96 +4,92 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 function PublicationsList() {
-    const [groupedSitemaps, setGroupedSitemaps] = useState({});
+    const [sitemapData, setSitemapData] = useState({});
+    const { t, i18n } = useTranslation();
+    const currentLang = i18n.language.toLowerCase();
     const navigate = useNavigate();
-    const { t } = useTranslation();
+
+    // List of expected programme keys (lowercase).
+    const programmeKeys = ["dp", "cp", "myp", "pyp"];
 
     useEffect(() => {
-        async function loadEnvelopes() {
-            try {
-                const res = await fetch('http://localhost:3001/api/envelopes');
-                if (!res.ok) {
-                    console.warn(t('ErrorFetchingEnvelopes'));
-                    return;
+        async function loadAllSitemaps() {
+            const fetchedSitemaps = {};
+            const fetchPromises = programmeKeys.map(async (prog) => {
+                try {
+                    const res = await fetch(`http://localhost:3001/api/sitemap/${prog}`);
+                    if (!res.ok) {
+                        console.warn(t('SitemapNotFound', { programme: prog.toUpperCase() }));
+                        return;
+                    }
+                    const data = await res.json();
+                    // Store with key in lowercase.
+                    fetchedSitemaps[data.programme.toLowerCase()] = data;
+                } catch (err) {
+                    console.error(t('ErrorFetchingSitemap', { programme: prog.toUpperCase(), error: err.message }));
                 }
-                const data = await res.json();
-                // Filter out any undefined/null entries
-                const filteredData = data.filter(env => env);
-                // Group by programme then subject
-                const grouped = filteredData.reduce((acc, env) => {
-                    const prog = (env.programme || 'DP').toUpperCase();
-                    if (!acc[prog]) {
-                        acc[prog] = {};
-                    }
-                    const subject = env.subject || 'General';
-                    if (!acc[prog][subject]) {
-                        acc[prog][subject] = [];
-                    }
-                    acc[prog][subject].push(env);
-                    return acc;
-                }, {});
-                console.log('Grouped sitemaps:', grouped);
-                setGroupedSitemaps(grouped);
-            } catch (err) {
-                console.error(t('ErrorLoadingEnvelopes'), err);
-            }
+            });
+            await Promise.all(fetchPromises);
+            setSitemapData(fetchedSitemaps);
         }
-        loadEnvelopes();
-    }, [t]);
+        loadAllSitemaps();
+    }, [t, i18n.language]);
 
-    function handleClick(env) {
-        // Mark publication as seen
-        localStorage.setItem(`pubLastSeen_${env.publication}`, env.lastModified);
-        // Navigate to PublicationPage, sending the envelope URI in a query parameter
-        navigate(`/${env.programme}/${encodeURIComponent(env.publication)}?envUri=${encodeURIComponent(env.envelopeUri)}`);
+    function renderProgramme(progData) {
+        return (
+            <div key={progData.programme} style={styles.programmeBlock}>
+                <h2>{progData.programme}</h2>
+                {progData.subjects.map((subjectObj, subjIdx) => (
+                    <div key={subjIdx} style={styles.subjectGroup}>
+                        <h3>{subjectObj.subject}</h3>
+                        <ul style={styles.publicationList}>
+                            {subjectObj.groups.map((group, groupIdx) => {
+                                // "Parent" envelope is always the first item (English)
+                                const parentEnv = group.publications[0];
+                                // For display, choose envelope matching current language (if any), fallback to parent's.
+                                const displayEnv = group.publications.find(pub => pub.language.toLowerCase() === currentLang) ||
+                                    parentEnv;
+                                return (
+                                    <li key={groupIdx} style={styles.publicationItem} onClick={() => handleClick(parentEnv, displayEnv)}>
+                                        {displayEnv.publication}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
+    // When a publication is clicked, store the parent envelope's translationGroup
+    // and navigate using the display envelope's publication (for URL) and parent's envelopeUri (for content).
+    function handleClick(parentEnv, displayEnv) {
+        console.log('[PublicationsList] Clicked envelope (parent):', parentEnv);
+        // Save read time under key based on parent's translationGroup.
+        localStorage.setItem(`pubLastSeen_${parentEnv.translationGroup}`, parentEnv.lastModified);
+        // Always store the parent's translationGroup using programme in lowercase.
+        localStorage.setItem(`translationGroup_${parentEnv.programme.toLowerCase()}`, parentEnv.translationGroup);
+        navigate(`/${parentEnv.programme.toLowerCase()}/${encodeURIComponent(displayEnv.publication)}?envUri=${encodeURIComponent(parentEnv.envelopeUri)}`);
+    }
+
+    if (Object.keys(sitemapData).length === 0) {
+        return <p>{t('LoadingEnvelopes')}</p>;
     }
 
     return (
         <div>
             <h1>{t('Publications')}</h1>
-            {Object.keys(groupedSitemaps).length === 0 ? (
-                <p>{t('LoadingEnvelopes')}</p>
-            ) : (
-                Object.entries(groupedSitemaps).map(([prog, subjects]) => (
-                    <div key={prog} style={styles.programmeBlock}>
-                        <h2>{prog}</h2>
-                        {Object.entries(subjects).map(([subject, pubs]) => (
-                            <div key={subject} style={styles.subjectGroup}>
-                                <h3>{subject}</h3>
-                                <ul style={styles.publicationList}>
-                                    {pubs.map((env, idx) => (
-                                        <li key={idx} style={styles.publicationItem} onClick={() => handleClick(env)}>
-                                            {env.publication}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
-                    </div>
-                ))
-            )}
+            {Object.values(sitemapData).map(progData => renderProgramme(progData))}
         </div>
     );
 }
 
 const styles = {
-    programmeBlock: {
-        border: '1px solid #ccc',
-        padding: '1rem',
-        marginBottom: '1rem'
-    },
-    subjectGroup: {
-        marginBottom: '1rem'
-    },
-    publicationList: {
-        listStyle: 'none',
-        paddingLeft: '0'
-    },
-    publicationItem: {
-        cursor: 'pointer',
-        marginBottom: '0.5rem',
-        textDecoration: 'underline'
-    }
+    programmeBlock: { border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' },
+    subjectGroup: { marginBottom: '1rem' },
+    publicationList: { listStyle: 'none', paddingLeft: '0' },
+    publicationItem: { cursor: 'pointer', marginBottom: '0.5rem', textDecoration: 'underline' }
 };
 
 export default PublicationsList;
