@@ -51,7 +51,7 @@ function PublicationsList() {
     function renderProgramme(progData) {
         return (
             <div key={progData.programme} style={styles.programmeBlock}>
-                <h2>{progData.programme}</h2>
+                <h2>{t(`ProgrammeLabels.${progData.programme.toLowerCase()}`)}</h2>
                 {progData.subjects.map((subjectObj, subjIdx) => (
                     <div key={subjIdx} style={styles.subjectGroup}>
                         <h3>{subjectObj.subject}</h3>

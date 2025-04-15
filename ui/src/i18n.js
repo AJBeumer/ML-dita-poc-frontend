@@ -15,7 +15,13 @@ const resources = {
             Menu: "Menu",
             NoEnvelopeURI: "No envelope URI provided for publication: {{publication}}",
             LoadingEnvelope: "Loading publication envelope for {{publication}}...",
-            PublicationLabel: "Publication: {{publication}}"
+            PublicationLabel: "Publication: {{publication}}",
+            ProgrammeLabels: {
+                pyp: "PYP",
+                myp: "MYP",
+                dp: "DP",
+                cp: "CP"
+            }
             // add any other generic keys here
         }
     },
@@ -30,7 +36,13 @@ const resources = {
             Menu: "Menu",
             NoEnvelopeURI: "Aucune URI d'enveloppe fournie pour la publication: {{publication}}",
             LoadingEnvelope: "Chargement de l'enveloppe de la publication {{publication}}...",
-            PublicationLabel: "Publication: {{publication}}"
+            PublicationLabel: "Publication: {{publication}}",
+            ProgrammeLabels: {
+                pyp: "PP",
+                myp: "PEI",
+                dp: "PDD",
+                cp: "POP"
+            }
         }
     },
     es: {
@@ -44,7 +56,13 @@ const resources = {
             Menu: "Menú",
             NoEnvelopeURI: "No se proporcionó URI de sobre para la publicación: {{publication}}",
             LoadingEnvelope: "Cargando sobre de la publicación {{publication}}...",
-            PublicationLabel: "Publicación: {{publication}}"
+            PublicationLabel: "Publicación: {{publication}}",
+            ProgrammeLabels: {
+                pyp: "PEP",
+                myp: "PAI",
+                dp: "PD",
+                cp: "POP"
+            }
         }
     }
 };

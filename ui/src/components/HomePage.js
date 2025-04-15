@@ -52,7 +52,7 @@ function HomePage() {
         if (!data) {
             return (
                 <div style={styles.column}>
-                    <h2>{progName.toUpperCase()}</h2>
+                    <h2>{t(`ProgrammeLabels.${progName.toLowerCase()}`)}</h2>
                     <p>{t('LoadingOrNoData')}</p>
                 </div>
             );
