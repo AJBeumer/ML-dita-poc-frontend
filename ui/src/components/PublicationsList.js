@@ -1,5 +1,5 @@
 // src/components/PublicationsList.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -9,8 +9,8 @@ function PublicationsList() {
     const currentLang = i18n.language.toLowerCase();
     const navigate = useNavigate();
 
-    // List of expected programme keys (lowercase).
-    const programmeKeys = ["dp", "cp", "myp", "pyp"];
+    // Wrap programmeKeys in useMemo so that it doesn't change on every render.
+    const programmeKeys = useMemo(() => ["dp", "cp", "myp", "pyp"], []);
 
     useEffect(() => {
         async function loadAllSitemaps() {
@@ -23,7 +23,7 @@ function PublicationsList() {
                         return;
                     }
                     const data = await res.json();
-                    // Store with key in lowercase.
+                    // Store the sitemap under its programme key in lowercase.
                     fetchedSitemaps[data.programme.toLowerCase()] = data;
                 } catch (err) {
                     console.error(t('ErrorFetchingSitemap', { programme: prog.toUpperCase(), error: err.message }));
@@ -33,7 +33,20 @@ function PublicationsList() {
             setSitemapData(fetchedSitemaps);
         }
         loadAllSitemaps();
-    }, [t, i18n.language]);
+    }, [t, i18n.language, programmeKeys]);
+
+    // Desired programme order (using lowercase keys)
+    const desiredOrder = ["pyp", "myp", "dp", "cp"];
+
+    // Get an array of programmes sorted according to the desired order.
+    const sortedSitemapData = useMemo(() => {
+        const programmes = Object.values(sitemapData);
+        return programmes.sort((a, b) => {
+            const indexA = desiredOrder.indexOf(a.programme.toLowerCase());
+            const indexB = desiredOrder.indexOf(b.programme.toLowerCase());
+            return indexA - indexB;
+        });
+    }, [sitemapData, desiredOrder]);
 
     function renderProgramme(progData) {
         return (
@@ -44,13 +57,16 @@ function PublicationsList() {
                         <h3>{subjectObj.subject}</h3>
                         <ul style={styles.publicationList}>
                             {subjectObj.groups.map((group, groupIdx) => {
-                                // "Parent" envelope is always the first item (English)
+                                // Parent envelope is always the first envelope in each group.
                                 const parentEnv = group.publications[0];
-                                // For display, choose envelope matching current language (if any), fallback to parent's.
-                                const displayEnv = group.publications.find(pub => pub.language.toLowerCase() === currentLang) ||
-                                    parentEnv;
+                                // For display (i.e. title in URL), choose envelope matching current language (if available); fallback to parent.
+                                const displayEnv = group.publications.find(pub => pub.language.toLowerCase() === currentLang) || parentEnv;
                                 return (
-                                    <li key={groupIdx} style={styles.publicationItem} onClick={() => handleClick(parentEnv, displayEnv)}>
+                                    <li
+                                        key={groupIdx}
+                                        style={styles.publicationItem}
+                                        onClick={() => handleClick(parentEnv, displayEnv)}
+                                    >
                                         {displayEnv.publication}
                                     </li>
                                 );
@@ -62,14 +78,14 @@ function PublicationsList() {
         );
     }
 
-    // When a publication is clicked, store the parent envelope's translationGroup
-    // and navigate using the display envelope's publication (for URL) and parent's envelopeUri (for content).
     function handleClick(parentEnv, displayEnv) {
         console.log('[PublicationsList] Clicked envelope (parent):', parentEnv);
-        // Save read time under key based on parent's translationGroup.
-        localStorage.setItem(`pubLastSeen_${parentEnv.translationGroup}`, parentEnv.lastModified);
-        // Always store the parent's translationGroup using programme in lowercase.
+        // Save publication read time using the parent's translationGroup as key (or fallback to publication name).
+        const key = `pubLastSeen_${parentEnv.translationGroup || parentEnv.publication}`;
+        localStorage.setItem(key, parentEnv.lastModified);
+        // Store the parent's translationGroup under the key using programme in lowercase.
         localStorage.setItem(`translationGroup_${parentEnv.programme.toLowerCase()}`, parentEnv.translationGroup);
+        console.log('[PublicationsList] Stored translationGroup for', parentEnv.programme.toLowerCase(), ':', localStorage.getItem(`translationGroup_${parentEnv.programme.toLowerCase()}`));
         navigate(`/${parentEnv.programme.toLowerCase()}/${encodeURIComponent(displayEnv.publication)}?envUri=${encodeURIComponent(parentEnv.envelopeUri)}`);
     }
 
@@ -80,7 +96,7 @@ function PublicationsList() {
     return (
         <div>
             <h1>{t('Publications')}</h1>
-            {Object.values(sitemapData).map(progData => renderProgramme(progData))}
+            {sortedSitemapData.map(progData => renderProgramme(progData))}
         </div>
     );
 }
