@@ -1,4 +1,1161 @@
 {
   "programme": "CP",
-  "subjects": []
+  "subjects": [
+    {
+      "subject": "Guidance",
+      "groups": [
+        {
+          "translationGroup": "guidance_on_unit_planning_cp.ditamap",
+          "publications": [
+            {
+              "publication": "Guidance on unit planning cp",
+              "language": "en",
+              "status": "go-live",
+              "lastModified": "2025-05-06T15:33:06+02:00",
+              "ditamapUri": "/dita-maps/Guidance_on_unit_planning_cp.ditamap",
+              "envelopeUri": "/envelope/Guidance_on_unit_planning_cp-envelope.json",
+              "topics": [
+                {
+                  "uri": "/dita-xml/Why_is_unit.xml",
+                  "title": "Why is unit planning important?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:06+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/why_deep2_1_cp.xml",
+                      "title": "Why Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:06+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_1_cp.xml",
+                          "title": "Why Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_1_cp.xml",
+                              "title": "Why Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/why_deep4_2_cp.xml",
+                              "title": "Why Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/why_deep3_2_cp.xml",
+                          "title": "Why Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_3_cp.xml",
+                              "title": "Why Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/why_deep2_2_cp.xml",
+                      "title": "Why Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:06+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_3_cp.xml",
+                          "title": "Why Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_4_cp.xml",
+                              "title": "Why Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_is_unit.xml",
+                  "title": "What is unit planning according to the IB?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:06+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/what_deep2_1_cp.xml",
+                      "title": "What Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:06+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_1_cp.xml",
+                          "title": "What Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_1_cp.xml",
+                              "title": "What Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/what_deep3_2_cp.xml",
+                          "title": "What Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_2_cp.xml",
+                              "title": "What Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/what_deep4_3_cp.xml",
+                              "title": "What Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/what_deep2_2_cp.xml",
+                      "title": "What Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:06+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_3_cp.xml",
+                          "title": "What Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_4_cp.xml",
+                              "title": "What Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/The_core_of_unit.xml",
+                  "title": "The core of unit planning in IB programmes",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:06+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/core_deep2_1_cp.xml",
+                      "title": "Core Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:05+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_1_cp.xml",
+                          "title": "Core Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_1_cp.xml",
+                              "title": "Core Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/core_deep3_2_cp.xml",
+                          "title": "Core Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_2_cp.xml",
+                              "title": "Core Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/core_deep2_2_cp.xml",
+                      "title": "Core Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:05+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_3_cp.xml",
+                          "title": "Core Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_3_cp.xml",
+                              "title": "Core Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Inquiry_questions.xml",
+                  "title": "Inquiry questions and statements",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:05+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_1_cp.xml",
+                      "title": "Inquiry Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:05+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_1_cp.xml",
+                          "title": "Inquiry Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_1_cp.xml",
+                              "title": "Inquiry Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_2_cp.xml",
+                      "title": "Inquiry Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:05+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_2_cp.xml",
+                          "title": "Inquiry Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_2_cp.xml",
+                              "title": "Inquiry Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_about.xml",
+                  "title": "What about assessment?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:06+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/about_deep2_1_cp.xml",
+                      "title": "About Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:32:59+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/about_deep3_1_cp.xml",
+                          "title": "About Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:02+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_1_cp.xml",
+                              "title": "About Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/about_deep3_2_cp.xml",
+                          "title": "About Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:05+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_2_cp.xml",
+                              "title": "About Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:05+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Reflection.xml",
+                  "title": "Reflection in unit planning",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:06+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/ref_deep2_1_cp.xml",
+                      "title": "Ref Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:06+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/ref_deep3_1_cp.xml",
+                          "title": "Ref Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:06+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/ref_deep4_1_cp.xml",
+                              "title": "Ref Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:06+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "attachments": [
+                {
+                  "uri": "/dita-images/Mobius_strip.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:06+02:00"
+                },
+                {
+                  "uri": "/dita-images/5_sec_rule.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:32:56+02:00"
+                },
+                {
+                  "uri": "/dita-images/impossible.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:05+02:00"
+                }
+              ],
+              "programme": "CP",
+              "rawTranslationGroup": "guidance_on_unit_planning_cp.ditamap",
+              "translationGroup": "guidance_on_unit_planning_cp.ditamap"
+            },
+            {
+              "publication": "Guía sobre la planificación de la unidad cp",
+              "language": "es",
+              "status": "go-live",
+              "lastModified": "2025-05-06T15:34:00+02:00",
+              "ditamapUri": "/dita-maps/Guidance_on_unit_planning_cp_es.ditamap",
+              "envelopeUri": "/envelope/Guidance_on_unit_planning_cp_es-envelope.json",
+              "topics": [
+                {
+                  "uri": "/dita-xml/Why_is_unit_es.xml",
+                  "title": "¿Por qué es importante la planificación de la unidad?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/why_deep2_1_cp_es.xml",
+                      "title": "Why Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_1_cp_es.xml",
+                          "title": "Why Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_1_cp_es.xml",
+                              "title": "Why Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/why_deep4_2_cp_es.xml",
+                              "title": "Why Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/why_deep3_2_cp_es.xml",
+                          "title": "Why Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_3_cp_es.xml",
+                              "title": "Why Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/why_deep2_2_cp_es.xml",
+                      "title": "Why Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_3_cp_es.xml",
+                          "title": "Why Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_4_cp_es.xml",
+                              "title": "Why Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_is_unit_es.xml",
+                  "title": "¿Qué es la planificación de unidad según el IB?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/what_deep2_1_cp_es.xml",
+                      "title": "What Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_1_cp_es.xml",
+                          "title": "What Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_1_cp_es.xml",
+                              "title": "What Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/what_deep3_2_cp_es.xml",
+                          "title": "What Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_2_cp_es.xml",
+                              "title": "What Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/what_deep4_3_cp_es.xml",
+                              "title": "What Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/what_deep2_2_cp_es.xml",
+                      "title": "What Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_3_cp_es.xml",
+                          "title": "What Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_4_cp_es.xml",
+                              "title": "What Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/The_core_of_unit_es.xml",
+                  "title": "El núcleo de la planificación de la unidad en los programas del IB",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/core_deep2_1_cp_es.xml",
+                      "title": "Core Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_1_cp_es.xml",
+                          "title": "Core Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_1_cp_es.xml",
+                              "title": "Core Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/core_deep3_2_cp_es.xml",
+                          "title": "Core Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_2_cp_es.xml",
+                              "title": "Core Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/core_deep2_2_cp_es.xml",
+                      "title": "Core Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_3_cp_es.xml",
+                          "title": "Core Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_3_cp_es.xml",
+                              "title": "Core Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Inquiry_questions_es.xml",
+                  "title": "Preguntas y enunciados de indagación",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_1_cp_es.xml",
+                      "title": "Inquiry Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_1_cp_es.xml",
+                          "title": "Inquiry Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_1_cp_es.xml",
+                              "title": "Inquiry Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_2_cp_es.xml",
+                      "title": "Inquiry Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_2_cp_es.xml",
+                          "title": "Inquiry Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_2_cp_es.xml",
+                              "title": "Inquiry Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_about_es.xml",
+                  "title": "¿Qué hay de la evaluación?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/about_deep2_1_cp_es.xml",
+                      "title": "Acerca de Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/about_deep3_1_cp_es.xml",
+                          "title": "Acerca de Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_1_cp_es.xml",
+                              "title": "Acerca de Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/about_deep3_2_cp_es.xml",
+                          "title": "Acerca de Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_2_cp_es.xml",
+                              "title": "Acerca de Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Reflection_es.xml",
+                  "title": "Reflexión en la planificación de la unidad",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:34:00+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/ref_deep2_1_cp_es.xml",
+                      "title": "Ref Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:34:00+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/ref_deep3_1_cp_es.xml",
+                          "title": "Ref Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:34:00+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/ref_deep4_1_cp_es.xml",
+                              "title": "Ref Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:34:00+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "attachments": [
+                {
+                  "uri": "/dita-images/Mobius_strip.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:06+02:00"
+                },
+                {
+                  "uri": "/dita-images/5_sec_rule.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:32:56+02:00"
+                },
+                {
+                  "uri": "/dita-images/impossible.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:05+02:00"
+                }
+              ],
+              "programme": "CP",
+              "rawTranslationGroup": "guidance_on_unit_planning_cp.ditamap",
+              "translationGroup": "guidance_on_unit_planning_cp.ditamap"
+            },
+            {
+              "publication": "Guide sur la planification de l'unité cp",
+              "language": "fr",
+              "status": "go-live",
+              "lastModified": "2025-05-06T15:33:40+02:00",
+              "ditamapUri": "/dita-maps/Guidance_on_unit_planning_cp_fr.ditamap",
+              "envelopeUri": "/envelope/Guidance_on_unit_planning_cp_fr-envelope.json",
+              "topics": [
+                {
+                  "uri": "/dita-xml/Why_is_unit_fr.xml",
+                  "title": "Pourquoi la planification d’unité est-elle importante ?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:40+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/why_deep2_1_cp_fr.xml",
+                      "title": "Why Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:40+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_1_cp_fr.xml",
+                          "title": "Why Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_1_cp_fr.xml",
+                              "title": "Why Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/why_deep4_2_cp_fr.xml",
+                              "title": "Why Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/why_deep3_2_cp_fr.xml",
+                          "title": "Why Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_3_cp_fr.xml",
+                              "title": "Why Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/why_deep2_2_cp_fr.xml",
+                      "title": "Why Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:40+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/why_deep3_3_cp_fr.xml",
+                          "title": "Why Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/why_deep4_4_cp_fr.xml",
+                              "title": "Why Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_is_unit_fr.xml",
+                  "title": "Qu’est-ce que la planification d’unité selon l’IB ?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:40+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/what_deep2_1_cp_fr.xml",
+                      "title": "What Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:40+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_1_cp_fr.xml",
+                          "title": "What Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_1_cp_fr.xml",
+                              "title": "What Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/what_deep3_2_cp_fr.xml",
+                          "title": "What Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_2_cp_fr.xml",
+                              "title": "What Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            },
+                            {
+                              "uri": "/dita-xml/what_deep4_3_cp_fr.xml",
+                              "title": "What Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/what_deep2_2_cp_fr.xml",
+                      "title": "What Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:40+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/what_deep3_3_cp_fr.xml",
+                          "title": "What Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/what_deep4_4_cp_fr.xml",
+                              "title": "What Deep4 4 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/The_core_of_unit_fr.xml",
+                  "title": "Le cœur de la planification d’unité dans les programmes de l’IB",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:40+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/core_deep2_1_cp_fr.xml",
+                      "title": "Core Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_1_cp_fr.xml",
+                          "title": "Core Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_1_cp_fr.xml",
+                              "title": "Core Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/core_deep3_2_cp_fr.xml",
+                          "title": "Core Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_2_cp_fr.xml",
+                              "title": "Core Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/core_deep2_2_cp_fr.xml",
+                      "title": "Core Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/core_deep3_3_cp_fr.xml",
+                          "title": "Core Deep3 3 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/core_deep4_3_cp_fr.xml",
+                              "title": "Core Deep4 3 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Inquiry_questions_fr.xml",
+                  "title": "Questions et énoncés d'investigation",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:39+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_1_cp_fr.xml",
+                      "title": "Inquiry Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_1_cp_fr.xml",
+                          "title": "Inquiry Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_1_cp_fr.xml",
+                              "title": "Inquiry Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "uri": "/dita-xml/inquiry_deep2_2_cp_fr.xml",
+                      "title": "Inquiry Deep2 2 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/inquiry_deep3_2_cp_fr.xml",
+                          "title": "Inquiry Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/inquiry_deep4_2_cp_fr.xml",
+                              "title": "Inquiry Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/What_about_fr.xml",
+                  "title": "Qu'en est-il de l’évaluation ?",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:40+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/about_deep2_1_cp_fr.xml",
+                      "title": "À propos de Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/about_deep3_1_cp_fr.xml",
+                          "title": "À propos de Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_1_cp_fr.xml",
+                              "title": "À propos de Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "uri": "/dita-xml/about_deep3_2_cp_fr.xml",
+                          "title": "À propos de Deep3 2 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:39+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/about_deep4_2_cp_fr.xml",
+                              "title": "À propos de Deep4 2 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:39+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "uri": "/dita-xml/Reflection_fr.xml",
+                  "title": "Réflexion dans la planification de l’unité",
+                  "status": "go-live",
+                  "lastModified": "2025-05-06T15:33:39+02:00",
+                  "children": [
+                    {
+                      "uri": "/dita-xml/ref_deep2_1_cp_fr.xml",
+                      "title": "Ref Deep2 1 cp",
+                      "status": "go-live",
+                      "lastModified": "2025-05-06T15:33:39+02:00",
+                      "children": [
+                        {
+                          "uri": "/dita-xml/ref_deep3_1_cp_fr.xml",
+                          "title": "Ref Deep3 1 cp",
+                          "status": "go-live",
+                          "lastModified": "2025-05-06T15:33:40+02:00",
+                          "children": [
+                            {
+                              "uri": "/dita-xml/ref_deep4_1_cp_fr.xml",
+                              "title": "Ref Deep4 1 cp",
+                              "status": "go-live",
+                              "lastModified": "2025-05-06T15:33:40+02:00",
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "attachments": [
+                {
+                  "uri": "/dita-images/Mobius_strip.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:06+02:00"
+                },
+                {
+                  "uri": "/dita-images/5_sec_rule.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:32:56+02:00"
+                },
+                {
+                  "uri": "/dita-images/impossible.jpg",
+                  "type": "application/octet-stream",
+                  "lastModified": "2025-05-06T15:33:05+02:00"
+                }
+              ],
+              "programme": "CP",
+              "rawTranslationGroup": "guidance_on_unit_planning_cp.ditamap",
+              "translationGroup": "guidance_on_unit_planning_cp.ditamap"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

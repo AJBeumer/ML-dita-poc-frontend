@@ -1,0 +1,56 @@
+/* src/components/ContentPage.css */
+.content-container {
+    padding: 1.5rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Section defaults */
+.cp-section {
+    margin-bottom: 2rem;
+}
+
+/* Depth 0 = main topic: largest heading */
+.cp-level-0 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    padding-left: 0;
+}
+
+/* Depth 1 = child: slightly smaller and indented */
+.cp-depth-1 .cp-heading,
+.cp-level-1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    padding-left: 1rem;
+}
+
+/* Depth 2 = grandchild */
+.cp-depth-2 .cp-heading,
+.cp-level-2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 2rem;
+}
+
+/* Depth >=3 = deeper */
+.cp-depth-3 .cp-heading,
+.cp-level-3,
+.cp-level-4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    padding-left: 3rem;
+}
+
+/* Paragraphs indent relative to their section */
+.cp-section p {
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    text-indent: 1em;
+}
+
+.cp-loading,
+.cp-error {
+    font-style: italic;
+    color: #555;
+}

@@ -1,25 +1,83 @@
 /* src/components/Header.css */
+
+/* 1) Make the header exactly 48px tall and a flexbox */
 .header {
-    background-color: #063353;
+    display: flex;
+    align-items: center;        /* vertical centering */
+    justify-content: space-between;
+    height: 48px;
+    padding: 0 1rem;
+    background-color: #00529b;  /* IBO blue */
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
     color: #fff;
-    padding: 1rem;
+}
+
+/* 2) Ensure left‐side wrapper is also flexed & 100% height */
+.header-left {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    height: 100%;
 }
 
-.header-left {
-    /* Home link remains on the left */
-    flex: 1;
-}
-
-.header-right {
-    /* Right side: position the dropdown at the far right */
-    text-align: right;
-}
-
-.home-link {
-    color: #fff;
-    font-weight: bold;
+/* 3) Logo + text: vertically centered */
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-right: 2rem;
     text-decoration: none;
+    color: #fff;
+}
+
+/* 4) If you’re still using <img>, force it white */
+.logo-image {
+    height: 24px;
+    width: auto;
+    margin-right: 0.5rem;
+    /* this turns any colored image into white */
+    filter: brightness(0) invert(1) !important;
+}
+
+/* If you have switched to inline SVG, instead do:
+.logo-image { fill: #fff !important; }
+*/
+
+/* 5) “ibo.org” text next to logo */
+.logo-text {
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* 6) Nav links container: flex + full height */
+.main-nav .nav-links {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 7) Each link: fill its parent height and get horizontal padding */
+.main-nav .nav-links li a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.75rem;
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.main-nav .nav-links li a:hover {
+    opacity: 0.7;
+}
+
+/* 8) Right side language selector also centered */
+.header-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }

@@ -31,6 +31,10 @@ const parser = new XMLParser({
     attributeNamePrefix: '@_'
 });
 
+// Helper to normalize programme keys (to uppercase)
+const normalizeProgramme = (prog) =>
+    prog && prog.trim() !== "" ? prog.trim().toUpperCase() : null;
+
 /* ------------------------------------------------------------------
    1) GET /api/envelopes
        Returns all envelope metadata from the "dita-envelope" collection.
@@ -39,12 +43,8 @@ const parser = new XMLParser({
 app.get('/api/envelopes', async (req, res) => {
     try {
         const docs = await db.documents.query(qb.where(qb.collection('dita-envelope'))).result();
-
         const results = docs.map(doc => {
             const headers = doc.content.envelope?.headers || {};
-            // Compute a translationGroup:
-            // If "translationOf" exists and is non-empty, use that.
-            // Otherwise, derive from the ditamapUri (e.g. the file name).
             let translationGroup = "";
             if (headers.translationOf && headers.translationOf.trim() !== "") {
                 translationGroup = headers.translationOf.trim().toLowerCase();
@@ -55,14 +55,14 @@ app.get('/api/envelopes', async (req, res) => {
             }
             return {
                 publication: headers.publication || 'UntitledPub',
-                programme: headers.programme || 'DP',  // default to 'DP' if not present
+                programme: normalizeProgramme(headers.programme) || 'DP',
                 subject: headers.subject || '',
                 envelopeUri: doc.uri,               // MarkLogic document URI for the envelope
-                ditamapUri: headers.uri || '',       // Could be used as envelope URI if desired
-                lastModified: headers.lastModified,   // Publication-level lastModified
-                language: headers.language || 'en',   // Language (default to English)
+                ditamapUri: headers.uri || '',
+                lastModified: headers.lastModified,
+                language: headers.language || 'en',
                 translationOf: headers.translationOf || '',
-                translationGroup // new field tying related envelopes together
+                translationGroup
             };
         });
         if (req.query.lang) {
@@ -105,7 +105,7 @@ app.get('/api/publications', async (req, res) => {
             const headers = doc.content.envelope?.headers || {};
             return {
                 publication: headers.publication || doc.uri,
-                programme: headers.programme || 'DP',
+                programme: normalizeProgramme(headers.programme) || 'DP',
                 lastModified: headers.lastModified || new Date().toISOString(),
                 envelopeUri: `/api/envelope?uri=${encodeURIComponent(doc.uri)}`
             };
@@ -216,8 +216,9 @@ app.post('/api/incremental-sitemap-update', async (req, res) => {
        Serves the sitemap file for a given programme (e.g., GET /api/sitemap/dp).
 ------------------------------------------------------------------ */
 app.get('/api/sitemap/:programme', (req, res) => {
-    const prog = req.params.programme.toLowerCase();
-    const sitemapPath = path.join('sitemaps', `${prog}.json`);
+    // Normalize incoming programme parameter to uppercase
+    const prog = req.params.programme.trim().toUpperCase();
+    const sitemapPath = path.join('sitemaps', `${prog.toLowerCase()}.json`);
     if (fs.existsSync(sitemapPath)) {
         res.sendFile(path.resolve(sitemapPath));
     } else {
@@ -248,19 +249,14 @@ app.get('/api/sitemap/:programme', (req, res) => {
 ------------------------------------------------------------------ */
 async function generateSitemaps() {
     const docs = await db.documents.query(qb.where(qb.collection('dita-envelope'))).result();
-
     // Build nested structure: programme -> subject -> rawTranslationGroup -> [envelope objects]
     const sitemaps = {};
     for (const doc of docs) {
         const headers = doc.content.envelope?.headers || {};
         const instance = doc.content.envelope?.instance || {};
-        // Use headers.programme or default.
-        const programmeKey =
-            headers.programme && headers.programme.trim() !== ""
-                ? headers.programme.trim()
-                : 'PYP';
+        // Normalize programme key to uppercase
+        const programmeKey = normalizeProgramme(headers.programme) || 'PYP';
         const subject = headers.subject || 'general';
-
         // Compute rawTranslationGroup:
         let rawTranslationGroup = "";
         if (headers.translationOf && headers.translationOf.trim() !== "") {
@@ -270,7 +266,6 @@ async function generateSitemaps() {
         } else {
             rawTranslationGroup = (headers.publication || 'untitled').toLowerCase();
         }
-
         if (!sitemaps[programmeKey]) {
             sitemaps[programmeKey] = {};
         }
@@ -286,35 +281,29 @@ async function generateSitemaps() {
             status: headers.status || 'go-live',
             lastModified: headers.lastModified || new Date().toISOString(),
             ditamapUri: headers.uri || '',
-            envelopeUri: doc.uri, // Use the document's URI as envelopeUri.
+            envelopeUri: doc.uri,
             topics: instance.ditaMap?.files || [],
             attachments: instance.ditaMap?.attachments || [],
             programme: programmeKey,
-            rawTranslationGroup // store raw computed value
+            rawTranslationGroup
         });
     }
 
     // Normalize translationGroup within each group:
-    // For each group, if any envelope has a nonempty translationOf (i.e. rawTranslationGroup differs from the raw default based on publication),
-    // then force all envelopes in the group to use that value.
     for (const programme in sitemaps) {
         for (const subject in sitemaps[programme]) {
             for (const group in sitemaps[programme][subject]) {
                 const envelopes = sitemaps[programme][subject][group];
-                let commonGroup = group; // default value: the raw group key
-                // If any envelope has a rawTranslationGroup that doesn't equal the current group,
-                // assume that envelope comes from a translation and use that value.
+                let commonGroup = group;
                 for (const env of envelopes) {
                     if (env.rawTranslationGroup && env.rawTranslationGroup !== group) {
                         commonGroup = env.rawTranslationGroup;
                         break;
                     }
                 }
-                // Update each envelope with the commonGroup.
                 envelopes.forEach(env => {
                     env.translationGroup = commonGroup;
                 });
-                // Optionally, if you want to update the grouping key, you could do that here.
             }
         }
     }
@@ -342,7 +331,6 @@ async function generateSitemaps() {
             subjects: Object.entries(subjectData).map(([subject, groups]) => ({
                 subject,
                 groups: Object.entries(groups).map(([groupKey, publications]) => ({
-                    // Use the common translationGroup from the first envelope.
                     translationGroup: publications[0]?.translationGroup || groupKey,
                     publications
                 }))
@@ -350,16 +338,22 @@ async function generateSitemaps() {
         };
     }
 
-    // Write each programme's sitemap to a JSON file in the "sitemaps" folder.
-    for (const [programme, sitemapContent] of Object.entries(finalSitemaps)) {
-        const sitemapFilename = `${programme.toLowerCase()}.json`;
+    // Ensure that all expected programmes (normalized to uppercase) are present.
+    const expectedProgrammes = ['PYP', 'MYP', 'DP', 'CP'];
+    expectedProgrammes.forEach(prog => {
+        if (!finalSitemaps[prog]) {
+            finalSitemaps[prog] = { programme: prog, subjects: [] };
+        }
+    });
+
+    // Write out one file per expected programme.
+    expectedProgrammes.forEach(prog => {
+        const sitemapContent = finalSitemaps[prog];
+        const sitemapFilename = `${prog.toLowerCase()}.json`;
         const sitemapPath = path.join('sitemaps', sitemapFilename);
         fs.writeFileSync(sitemapPath, JSON.stringify(sitemapContent, null, 2));
-    }
+    });
 }
-
-
-
 
 app.listen(port, () => {
     console.log(`MarkLogic middle-tier running on http://localhost:${port}`);

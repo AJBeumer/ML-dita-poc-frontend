@@ -1,23 +1,57 @@
-// src/components/LanguageSelector.js
-import React from 'react';
-import i18n from '../i18n';  // Import the initialized i18n instance
+import React, { useState, useRef, useEffect } from 'react';
+import i18n from '../i18n';
+import './LanguageSelector.css';
 
-const LanguageSelector = () => {
-    const handleLanguageChange = (e) => {
-        i18n.changeLanguage(e.target.value);
+const LANGS = [
+    { code: 'en', label: 'English' },
+    { code: 'fr', label: 'Français' },
+    { code: 'es', label: 'Español' }
+];
+
+export default function LanguageSelector() {
+    const [open, setOpen] = useState(false);
+    const ref = useRef(null);
+
+    const currentCode = i18n.language;
+    const current = LANGS.find(l => l.code === currentCode) || LANGS[0];
+
+    const toggle = () => setOpen(o => !o);
+    const select = (code) => {
+        i18n.changeLanguage(code);
+        setOpen(false);
     };
 
-    return (
-        <select
-            onChange={handleLanguageChange}
-            value={i18n.language}
-            style={{ cursor: 'pointer', padding: '0.25rem', fontSize: '1rem' }}
-        >
-            <option value="en">English</option>
-            <option value="fr">Français</option>
-            <option value="es">Español</option>
-        </select>
-    );
-};
+    // close when you click outside
+    useEffect(() => {
+        const onClick = e => {
+            if (ref.current && !ref.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('click', onClick);
+        return () => document.removeEventListener('click', onClick);
+    }, []);
 
-export default LanguageSelector;
+    return (
+        <div className="lang-selector" ref={ref}>
+            <button type="button" className="lang-toggle" onClick={toggle}>
+                {current.label} <span className="caret">▾</span>
+            </button>
+            {open && (
+                <ul className="lang-menu">
+                    {LANGS.map(({ code, label }) => (
+                        <li key={code}>
+                            <button
+                                type="button"
+                                className={code === currentCode ? 'active' : ''}
+                                onClick={() => select(code)}
+                            >
+                                {label}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}

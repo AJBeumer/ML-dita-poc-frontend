@@ -1,63 +1,89 @@
 // src/components/ContentPage.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useOutletContext } from 'react-router-dom';
 import { DitaNode } from './DitaRenderer';
-import '../App.css';  // Assuming your CSS is here // Assuming your CSS is here
+import './ContentPage.css';
 
 function ContentPage() {
-    const { topicId } = useParams(); // Should be "/dita-xml/sample.xml"
-    const [parsedXml, setParsedXml] = useState(null);
+    const { topicId } = useParams();
+    const { topics } = useOutletContext();
+    const [parsedDocs, setParsedDocs] = useState([]);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        if (!topicId) {
-            console.error("ContentPage: No topicId provided in URL parameters.");
-            return;
+    // Find node and its map-depth
+    function findNodeDepth(list, uri, mapDepth = 0) {
+        for (const t of list) {
+            if (t.uri === uri) return { node: t, mapDepth };
+            if (t.children) {
+                const found = findNodeDepth(t.children, uri, mapDepth + 1);
+                if (found) return found;
+            }
         }
-        // topicId should already start with a slash; if not, normalize.
-        const normalizedTopicId = topicId.startsWith('/') ? topicId : `/dita-xml/${topicId}`;
-        const apiUrl = `http://localhost:3001/api/dita-xml?uri=${encodeURIComponent(normalizedTopicId)}`;
-        console.log('ContentPage - Fetching from:', apiUrl);
-        fetch(apiUrl)
-            .then(res => {
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                return res.json();
-            })
-            .then(data => {
-                console.log('ContentPage - Fetched data:', data);
-                setParsedXml(data);
-            })
-            .catch(err => {
-                console.error('Error fetching topic from Node API:', err);
-                setError(err);
-            });
-    }, [topicId]);
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
+        return null;
     }
-    if (!parsedXml) return <div>Loading content...</div>;
 
-    const root =
-        parsedXml.topic ||
-        parsedXml.concept ||
-        parsedXml.task ||
-        parsedXml.reference ||
-        parsedXml.glossgroup ||
-        {};
-    let title = 'No Title';
-    if (root.title) {
-        title =
-            typeof root.title === 'object' && root.title['#text']
-                ? root.title['#text']
-                : root.title;
+    // Collect subtree with relative depth
+    function collectUriDepths(node, baseDepth = 0) {
+        let arr = [{ uri: node.uri, depth: baseDepth }];
+        (node.children || []).forEach(child => {
+            arr = arr.concat(collectUriDepths(child, baseDepth + 1));
+        });
+        return arr;
     }
-    const body = root.body || root.conbody;
+
+    useEffect(() => {
+        if (!topicId || !topics) return;
+        const decoded = decodeURIComponent(topicId);
+        const normalized = decoded.startsWith('/') ? decoded : `/dita-xml/${decoded}`;
+
+        const found = findNodeDepth(topics, normalized);
+        if (!found) return;
+        const { node } = found;
+
+        // Depth 0: top-level only; Depth >=1: include entire subtree
+        const uriDepths = (found.mapDepth === 0)
+            ? [{ uri: node.uri, depth: 0 }]
+            : collectUriDepths(node, 0);
+
+        Promise.all(
+            uriDepths.map(({ uri, depth }) =>
+                fetch(`http://localhost:3001/api/dita-xml?uri=${encodeURIComponent(uri)}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error(res.statusText);
+                        return res.json();
+                    })
+                    .then(json => ({ uri, json, depth }))
+            )
+        )
+            .then(results => setParsedDocs(results))
+            .catch(err => setError(err));
+    }, [topicId, topics]);
+
+    if (error) return <div className="cp-error">Error: {error.message}</div>;
+    if (!parsedDocs.length) return <div className="cp-loading">Loading content...</div>;
 
     return (
-        <div style={{ padding: '1rem' }}>
-            <h1>{title}</h1>
-            {body ? <DitaNode node={body} /> : <div>No body content found.</div>}
+        <div className="content-container">
+            {parsedDocs.map(({ uri, json, depth }) => {
+                const root = json.topic || json.concept || json.task || json.reference || json.glossgroup || {};
+                const title = typeof root.title === 'object' && root.title['#text']
+                    ? root.title['#text']
+                    : root.title || 'No Title';
+                const body = root.body || root.conbody;
+
+                // Dynamic heading tag and class
+                const Heading = `h${Math.min(depth + 1, 4)}`;
+                return (
+                    <section id={uri} key={uri} className={`cp-section cp-depth-${depth}`}>
+                        {React.createElement(
+                            Heading,
+                            { className: `cp-heading cp-level-${depth}` },
+                            title
+                        )}
+                        {body ? <DitaNode node={body} /> : <p className="cp-empty">No content.</p>}
+                    </section>
+                );
+            })}
         </div>
     );
 }

@@ -1,0 +1,56 @@
+.lang-selector {
+    position: relative;
+    display: inline-block;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+.lang-toggle {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.lang-toggle .caret {
+    margin-left: 0.25rem;
+    font-size: 0.7rem;
+}
+
+.lang-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+    z-index: 1000;
+    min-width: 120px;
+}
+
+.lang-menu li {
+    margin: 0;
+}
+
+.lang-menu button {
+    width: 100%;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.lang-menu button:hover,
+.lang-menu button.active {
+    background: #eee;
+}

@@ -1,0 +1,131 @@
+/* src/components/PublicationsList.css */
+
+:root {
+    /* Restore the IB primary blue color */
+    --primary-color: #063353;
+}
+
+/* Prevent any horizontal overflow */
+html, body {
+    overflow-x: hidden;
+}
+
+.programmes-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 0 auto 2rem;
+    padding: 0 1rem;
+}
+
+.programme-block {
+    border: 1px solid var(--border-color, #ccc);
+    padding: 1rem;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: var(--box-shadow, 0 2px 4px rgba(0,0,0,0.1));
+}
+
+.programme-image {
+    display: block;
+    height: 80px;
+    width: auto;
+    margin: 0 0 1rem 0;
+}
+
+.subject-group {
+    margin-bottom: 1rem;
+}
+
+.publication-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.publication-item {
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+}
+
+/* Full-width hero video container (no horizontal scroll) */
+.hero {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    padding: 0;
+}
+
+.video-background {
+    position: relative;
+    width: 100%;
+}
+
+/* Ensure the iframe always fills the width and maintains aspect ratio */
+.video-background iframe {
+    display: block;
+    width: 100vw !important;
+    height: auto !important;
+    max-width: none !important;
+    aspect-ratio: 16/9;
+}
+
+/* Optional dark overlay for text contrast */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+/* Overlayed hero content */
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 0 1rem;
+    z-index: 2;            /* sit above the .hero-overlay */
+    color: #fff;
+}
+
+/* Big white title */
+.hero-title {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Container to constrain the search input width */
+.hero-search {
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Pill-shaped search bar */
+.hero-search input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.8);
+    background-color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    color: var(--primary-color);
+}
+
+/* Placeholder text styling */
+.hero-search input::placeholder {
+    color: var(--primary-color);
+    opacity: 0.7;
+}
