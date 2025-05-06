@@ -1,4 +1,5 @@
 /* src/components/LeftMenu.module.css */
+
 .container {
     background: #f9f9f9;
     border-right: 1px solid #e0e0e0;
@@ -51,11 +52,6 @@
 .button:hover {
     background: rgba(0, 95, 204, 0.1);
     border-left-color: #005fcc;
-}
-
-.highlight {
-    color: #d9534f;
-    font-weight: bold;
 }
 
 .empty {

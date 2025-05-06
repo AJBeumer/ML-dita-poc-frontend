@@ -1,4 +1,3 @@
-// src/components/HomePage.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -11,16 +10,7 @@ function HomePage() {
     const [cpData, setCpData] = useState(null);
     const [mypData, setMypData] = useState(null);
     const [pypData, setPypData] = useState(null);
-    const [currentTime, setCurrentTime] = useState(Date.now());
     const navigate = useNavigate();
-
-    // Update currentTime every second for highlights
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(Date.now());
-        }, 1000);
-        return () => clearInterval(timer);
-    }, []);
 
     // Fetch sitemap data for each programme
     useEffect(() => {
@@ -46,16 +36,6 @@ function HomePage() {
         loadProgramme('myp', setMypData);
         loadProgramme('pyp', setPypData);
     }, [t]);
-
-    // Determine if a publication should be highlighted
-    function isPublicationHighlighted(pub) {
-        if (pub.language.toLowerCase() !== i18n.language.toLowerCase()) {
-            return false;
-        }
-        const pubTime = new Date(pub.lastModified).getTime();
-        const twoMinutes = 2 * 60 * 1000;
-        return currentTime - pubTime < twoMinutes;
-    }
 
     // Navigate to publication page
     function handlePublicationClick(pub) {
@@ -93,20 +73,16 @@ function HomePage() {
                 {data.subjects.map((subjBlock, idx) => (
                     <div className="subject-block" key={idx}>
                         <h3>{subjBlock.subject}</h3>
-                        {subjBlock.publications.map((pub, idx2) => {
-                            const highlight = isPublicationHighlighted(pub);
-                            const className = highlight ? 'highlight-link' : 'pub-link';
-                            return (
-                                <div key={idx2}>
-                  <span
-                      className={className}
-                      onClick={() => handlePublicationClick(pub)}
-                  >
-                    {pub.publication}
-                  </span>
-                                </div>
-                            );
-                        })}
+                        {subjBlock.publications.map((pub, idx2) => (
+                            <div key={idx2}>
+                                <span
+                                    className="pub-link"
+                                    onClick={() => handlePublicationClick(pub)}
+                                >
+                                    {pub.publication}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 ))}
             </div>
