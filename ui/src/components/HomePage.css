@@ -1,0 +1,57 @@
+/* src/components/HomePage.css */
+
+.homepage-container {
+    padding: 1rem;
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: var(--background-color, #f4f4f4);
+}
+
+.homepage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.column {
+    border: 1px solid var(--border-color, #ccc);
+    padding: 1rem;
+    min-height: 200px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.programme-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+
+.subject-block {
+    margin-bottom: 1rem;
+}
+
+.pub-link {
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    color: var(--secondary-color, #009edb);
+}
+
+.highlight-link {
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.25rem;
+    color: red;
+}
+

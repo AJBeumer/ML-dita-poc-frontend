@@ -1,0 +1,64 @@
+/* src/components/LeftMenu.module.css */
+.container {
+    background: #f9f9f9;
+    border-right: 1px solid #e0e0e0;
+    padding: 1rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.depth0 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.depth1 {
+    list-style: none;
+    margin: 0;
+    padding-left: 1rem;
+}
+
+.parent {
+    margin-bottom: 0.75rem;
+}
+
+.child {
+    margin-bottom: 0.5rem;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.button:hover {
+    background: rgba(0, 95, 204, 0.1);
+    border-left-color: #005fcc;
+}
+
+.highlight {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.empty {
+    color: #777;
+    font-style: italic;
+}

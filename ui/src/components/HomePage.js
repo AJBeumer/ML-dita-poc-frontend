@@ -3,19 +3,33 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from './LanguageSelector';
+import './HomePage.css';
 
 function HomePage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [dpData, setDpData] = useState(null);
     const [cpData, setCpData] = useState(null);
     const [mypData, setMypData] = useState(null);
     const [pypData, setPypData] = useState(null);
+    const [currentTime, setCurrentTime] = useState(Date.now());
     const navigate = useNavigate();
 
+    // Update currentTime every second for highlights
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(Date.now());
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    // Fetch sitemap data for each programme
     useEffect(() => {
         async function loadProgramme(programme, setFn) {
             try {
-                const res = await fetch(`http://localhost:3001/api/sitemap/${programme}`);
+                const res = await fetch(
+                    `http://localhost:3001/api/sitemap/${programme}?t=${Date.now()}`,
+                    { cache: 'no-store' }
+                );
                 if (!res.ok) {
                     console.warn(t('SitemapNotFound', { programme }));
                     return;
@@ -26,54 +40,70 @@ function HomePage() {
                 console.error(t('ErrorFetchingSitemap', { programme, error: err.message }));
             }
         }
+
         loadProgramme('dp', setDpData);
         loadProgramme('cp', setCpData);
         loadProgramme('myp', setMypData);
         loadProgramme('pyp', setPypData);
     }, [t]);
 
-    // Publication is highlighted if its lastModified is newer than the stored value.
+    // Determine if a publication should be highlighted
     function isPublicationHighlighted(pub) {
-        const lastSeenKey = `pubLastSeen_${pub.publication}`;
-        const storedTimestamp = localStorage.getItem(lastSeenKey);
-        if (!storedTimestamp) return true;
-        const pubLastModified = new Date(pub.lastModified);
-        const lastSeen = new Date(storedTimestamp);
-        return pubLastModified > lastSeen;
+        if (pub.language.toLowerCase() !== i18n.language.toLowerCase()) {
+            return false;
+        }
+        const pubTime = new Date(pub.lastModified).getTime();
+        const twoMinutes = 2 * 60 * 1000;
+        return currentTime - pubTime < twoMinutes;
     }
 
+    // Navigate to publication page
     function handlePublicationClick(pub) {
-        const lastSeenKey = `pubLastSeen_${pub.publication}`;
-        localStorage.setItem(lastSeenKey, pub.lastModified);
         navigate(`/${encodeURIComponent(pub.programme)}/${encodeURIComponent(pub.publication)}`);
     }
 
+    // Render each programme block with an image header
     function renderProgrammeBlock(progName, data) {
+        const lang = i18n.language.toLowerCase();
+        const suffix = lang === 'fr' ? 'Fr' : lang === 'es' ? 'Sp' : 'En';
+        const imgSrc =
+            `${process.env.PUBLIC_URL}/images/programmes/` +
+            `${progName.toUpperCase()}_Colour_${suffix}.svg`;
+
         if (!data) {
             return (
-                <div style={styles.column}>
-                    <h2>{t(`ProgrammeLabels.${progName.toLowerCase()}`)}</h2>
+                <div className="column" key={progName}>
+                    <img
+                        src={imgSrc}
+                        alt={t(`ProgrammeLabels.${progName.toLowerCase()}`)}
+                        className="programme-image"
+                    />
                     <p>{t('LoadingOrNoData')}</p>
                 </div>
             );
         }
+
         return (
-            <div style={styles.column}>
-                <h2>{progName.toUpperCase()}</h2>
+            <div className="column" key={progName}>
+                <img
+                    src={imgSrc}
+                    alt={t(`ProgrammeLabels.${progName.toLowerCase()}`)}
+                    className="programme-image"
+                />
                 {data.subjects.map((subjBlock, idx) => (
-                    <div key={idx} style={styles.subjectBlock}>
+                    <div className="subject-block" key={idx}>
                         <h3>{subjBlock.subject}</h3>
                         {subjBlock.publications.map((pub, idx2) => {
                             const highlight = isPublicationHighlighted(pub);
-                            const pubStyle = highlight ? styles.highlightLink : {};
+                            const className = highlight ? 'highlight-link' : 'pub-link';
                             return (
                                 <div key={idx2}>
-                                    <span
-                                        onClick={() => handlePublicationClick(pub)}
-                                        style={{ ...styles.pubLink, ...pubStyle }}
-                                    >
-                                        {pub.publication}
-                                    </span>
+                  <span
+                      className={className}
+                      onClick={() => handlePublicationClick(pub)}
+                  >
+                    {pub.publication}
+                  </span>
                                 </div>
                             );
                         })}
@@ -84,12 +114,12 @@ function HomePage() {
     }
 
     return (
-        <div style={styles.container}>
-            <header style={styles.header}>
+        <div className="homepage-container">
+            <header className="homepage-header">
                 <h1>{t('WelcomeToDITAPublications')}</h1>
                 <LanguageSelector />
             </header>
-            <div style={styles.fourColumn}>
+            <div className="two-column">
                 {renderProgrammeBlock('dp', dpData)}
                 {renderProgrammeBlock('cp', cpData)}
                 {renderProgrammeBlock('myp', mypData)}
@@ -98,15 +128,5 @@ function HomePage() {
         </div>
     );
 }
-
-const styles = {
-    container: { padding: '1rem', maxWidth: '960px', margin: '0 auto' },
-    header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-    fourColumn: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginTop: '1rem' },
-    column: { border: '1px solid #ccc', padding: '1rem', minHeight: '200px' },
-    subjectBlock: { marginBottom: '1rem' },
-    pubLink: { cursor: 'pointer', textDecoration: 'underline' },
-    highlightLink: { color: 'red', fontWeight: 'bold' }
-};
 
 export default HomePage;

@@ -1,70 +1,103 @@
 // src/components/PublicationsList.js
-import React, { useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+
+import React, {useEffect, useState, useMemo} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useTranslation} from 'react-i18next';
+import './PublicationsList.css';
 
 function PublicationsList() {
     const [sitemapData, setSitemapData] = useState({});
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
     const currentLang = i18n.language.toLowerCase();
     const navigate = useNavigate();
 
-    // Wrap programmeKeys in useMemo so that it doesn't change on every render.
-    const programmeKeys = useMemo(() => ["dp", "cp", "myp", "pyp"], []);
+    // Programme keys in desired order
+    const programmeKeys = useMemo(() => ['dp', 'cp', 'myp', 'pyp'], []);
 
+    // Fetch all programme sitemaps
     useEffect(() => {
         async function loadAllSitemaps() {
-            const fetchedSitemaps = {};
-            const fetchPromises = programmeKeys.map(async (prog) => {
-                try {
-                    const res = await fetch(`http://localhost:3001/api/sitemap/${prog}`);
-                    if (!res.ok) {
-                        console.warn(t('SitemapNotFound', { programme: prog.toUpperCase() }));
-                        return;
+            const fetched = {};
+            await Promise.all(
+                programmeKeys.map(async (prog) => {
+                    try {
+                        const res = await fetch(`http://localhost:3001/api/sitemap/${prog}`);
+                        if (!res.ok) {
+                            console.warn(t('SitemapNotFound', {programme: prog.toUpperCase()}));
+                            return;
+                        }
+                        const data = await res.json();
+                        fetched[data.programme.toLowerCase()] = data;
+                    } catch (err) {
+                        console.error(
+                            t('ErrorFetchingSitemap', {programme: prog.toUpperCase(), error: err.message})
+                        );
                     }
-                    const data = await res.json();
-                    // Store the sitemap under its programme key in lowercase.
-                    fetchedSitemaps[data.programme.toLowerCase()] = data;
-                } catch (err) {
-                    console.error(t('ErrorFetchingSitemap', { programme: prog.toUpperCase(), error: err.message }));
-                }
-            });
-            await Promise.all(fetchPromises);
-            setSitemapData(fetchedSitemaps);
+                })
+            );
+            setSitemapData(fetched);
         }
+
         loadAllSitemaps();
     }, [t, i18n.language, programmeKeys]);
 
-    // Desired programme order (using lowercase keys)
-    const desiredOrder = ["pyp", "myp", "dp", "cp"];
-
-    // Get an array of programmes sorted according to the desired order.
+    // Sort programmes PYP, MYP, DP, CP
+    const desiredOrder = ['pyp', 'myp', 'dp', 'cp'];
     const sortedSitemapData = useMemo(() => {
-        const programmes = Object.values(sitemapData);
-        return programmes.sort((a, b) => {
-            const indexA = desiredOrder.indexOf(a.programme.toLowerCase());
-            const indexB = desiredOrder.indexOf(b.programme.toLowerCase());
-            return indexA - indexB;
-        });
-    }, [sitemapData, desiredOrder]);
+        return Object.values(sitemapData).sort(
+            (a, b) => desiredOrder.indexOf(a.programme.toLowerCase())
+                - desiredOrder.indexOf(b.programme.toLowerCase())
+        );
+    }, [sitemapData]);
 
+    // Navigate on click, preserving translationGroup
+    function handleClick(parentEnv, displayEnv) {
+        const groupKey = parentEnv.translationGroup || parentEnv.publication;
+        localStorage.setItem(`pubLastSeen_${groupKey}`, parentEnv.lastModified);
+        localStorage.setItem(
+            `translationGroup_${parentEnv.programme.toLowerCase()}`,
+            parentEnv.translationGroup
+        );
+        navigate(
+            `/${parentEnv.programme.toLowerCase()}/${encodeURIComponent(
+                displayEnv.publication
+            )}?envUri=${encodeURIComponent(parentEnv.envelopeUri)}`
+        );
+    }
+
+    // Render programme card with header image + resource list
     function renderProgramme(progData) {
+        const suffix =
+            currentLang === 'fr' ? 'Fr' :
+                currentLang === 'es' ? 'Sp' :
+                    'En';
+        const imgSrc =
+            `${process.env.PUBLIC_URL}/images/programmes/` +
+            `${progData.programme}_Colour_${suffix}.svg`;
+
         return (
-            <div key={progData.programme} style={styles.programmeBlock}>
-                <h2>{t(`ProgrammeLabels.${progData.programme.toLowerCase()}`)}</h2>
+            <div key={progData.programme} className="programme-block">
+                {/* Hero header image */}
+                <img
+                    src={imgSrc}
+                    alt={t(`ProgrammeLabels.${progData.programme.toLowerCase()}`)}
+                    className="programme-image"
+                />
+
                 {progData.subjects.map((subjectObj, subjIdx) => (
-                    <div key={subjIdx} style={styles.subjectGroup}>
+                    <div key={subjIdx} className="subject-group">
                         <h3>{subjectObj.subject}</h3>
-                        <ul style={styles.publicationList}>
+                        <ul className="publication-list">
                             {subjectObj.groups.map((group, groupIdx) => {
-                                // Parent envelope is always the first envelope in each group.
                                 const parentEnv = group.publications[0];
-                                // For display (i.e. title in URL), choose envelope matching current language (if available); fallback to parent.
-                                const displayEnv = group.publications.find(pub => pub.language.toLowerCase() === currentLang) || parentEnv;
+                                const displayEnv =
+                                    group.publications.find(
+                                        pub => pub.language.toLowerCase() === currentLang
+                                    ) || parentEnv;
                                 return (
                                     <li
                                         key={groupIdx}
-                                        style={styles.publicationItem}
+                                        className="publication-item"
                                         onClick={() => handleClick(parentEnv, displayEnv)}
                                     >
                                         {displayEnv.publication}
@@ -78,34 +111,37 @@ function PublicationsList() {
         );
     }
 
-    function handleClick(parentEnv, displayEnv) {
-        console.log('[PublicationsList] Clicked envelope (parent):', parentEnv);
-        // Save publication read time using the parent's translationGroup as key (or fallback to publication name).
-        const key = `pubLastSeen_${parentEnv.translationGroup || parentEnv.publication}`;
-        localStorage.setItem(key, parentEnv.lastModified);
-        // Store the parent's translationGroup under the key using programme in lowercase.
-        localStorage.setItem(`translationGroup_${parentEnv.programme.toLowerCase()}`, parentEnv.translationGroup);
-        console.log('[PublicationsList] Stored translationGroup for', parentEnv.programme.toLowerCase(), ':', localStorage.getItem(`translationGroup_${parentEnv.programme.toLowerCase()}`));
-        navigate(`/${parentEnv.programme.toLowerCase()}/${encodeURIComponent(displayEnv.publication)}?envUri=${encodeURIComponent(parentEnv.envelopeUri)}`);
-    }
-
     if (Object.keys(sitemapData).length === 0) {
         return <p>{t('LoadingEnvelopes')}</p>;
     }
 
     return (
-        <div>
-            <h1>{t('Publications')}</h1>
-            {sortedSitemapData.map(progData => renderProgramme(progData))}
-        </div>
+        <>
+            {/* Background video hero */}
+            <div className="hero">
+                <div className="video-background">
+                    <iframe
+                        src="https://player.vimeo.com/video/535740597?background=1&controls=0&loop=1&autoplay=1&autopause=0&muted=1&playsinline=1&transparent=1"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen"
+                        allowFullScreen
+                    />
+                </div>
+                <div className="hero-overlay"/>
+                <div className="hero-content">
+                    <h1 className="hero-title">PRC POC</h1>
+                    <div className="hero-search">
+                        <input type="text" placeholder="Search…"/>
+                    </div>
+                </div>
+            </div>
+
+            {/* Publications grid */}
+            <div className="programmes-container">
+                {sortedSitemapData.map(renderProgramme)}
+            </div>
+        </>
     );
 }
-
-const styles = {
-    programmeBlock: { border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' },
-    subjectGroup: { marginBottom: '1rem' },
-    publicationList: { listStyle: 'none', paddingLeft: '0' },
-    publicationItem: { cursor: 'pointer', marginBottom: '0.5rem', textDecoration: 'underline' }
-};
 
 export default PublicationsList;

@@ -1,6 +1,6 @@
 // src/i18n.js
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 const resources = {
@@ -21,6 +21,14 @@ const resources = {
                 myp: "MYP",
                 dp: "DP",
                 cp: "CP"
+            },
+            Nav: {
+                myIB: "My IB",
+                ibis: "IBIS",
+                students: "Students",
+                store: "Store",
+                blogs: "Blogs",
+                ask: "Ask a question"
             }
             // add any other generic keys here
         }
@@ -42,6 +50,14 @@ const resources = {
                 myp: "PEI",
                 dp: "PDD",
                 cp: "POP"
+            },
+            Nav: {
+                myIB: "Mon IB",
+                ibis: "IBIS",
+                students: "Élèves",
+                store: "Magasin de l’IB",
+                blogs: "Blogs",
+                ask: "L’IB vous répond"
             }
         }
     },
@@ -62,6 +78,14 @@ const resources = {
                 myp: "PAI",
                 dp: "PD",
                 cp: "POP"
+            },
+            Nav: {
+                myIB: "Mi IB",
+                ibis: "IBIS",
+                students: "Alumnos",
+                store: "Tienda virtual del IB",
+                blogs: "Blogs",
+                ask: "El IB responde"
             }
         }
     }
